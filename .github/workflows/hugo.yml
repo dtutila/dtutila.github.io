@@ -35,6 +35,8 @@ jobs:
         with:
           hugo-version: '0.139.4'
           extended: true
+      - name: list files
+        run: ls -la
 
       - name: Build with Hugo
         run: hugo --minify

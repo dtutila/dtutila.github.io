@@ -1,4 +1,4 @@
-# Personal Brand Website
+# Personal site
 
 This is my website built with [Hugo](https://gohugo.io/), using the PaperMod theme.
 
@@ -11,8 +11,8 @@ This is my website built with [Hugo](https://gohugo.io/), using the PaperMod the
 
 1. Clone this repository:
 ```bash
-git clone --recursive https://github.com/dtutila/dtutila.git
-cd personal-brand
+git clone --recursive https://github.com/dtutila/dtutila.github.io.git
+cd dtutdtutila.github.io.gitila
 ```
 
 2. Start the Hugo development server:
