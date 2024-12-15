@@ -55,7 +55,7 @@ params:
         enabled: true
         title: "dtutila"
         subtitle: "Software Engineer"
-        imageUrl: "img/5238010.png"
+        imageUrl: "https://avatars.githubusercontent.com/u/5238010?v=4"
         imageTitle: "Hello, I'm Dan!"
         imageWidth: 120
         imageHeight: 120
@@ -94,17 +94,17 @@ menu:
     main:
         - identifier: about
           name: About
-          url: /about/
+          url: /
           weight: 10
-        - identifier: projects
-          name: Projects
-          url: /projects/
-          weight: 20
-        # - identifier: posts
-        #   name: Posts
-        #   url: /posts/
-          weight: 30
-        - identifier: search
-          name: Search
-          url: /search/
-          weight: 40
+        # - identifier: projects
+        #   name: Projects
+        #   url: /projects/
+        #   weight: 20
+        # # - identifier: posts
+        # #   name: Posts
+        # #   url: /posts/
+        #   weight: 30
+        # - identifier: search
+        #   name: Search
+        #   url: /search/
+        #   weight: 40
