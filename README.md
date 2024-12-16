@@ -33,7 +33,7 @@ The built site will be in the `public/` directory.
 
 ## Content Management
 
-- Images and other static files go in `static/`
+- Images and other static files go in `/static/`
 - Site configuration is in `hugo.yaml`
 
 ## Theme
