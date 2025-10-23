@@ -1,42 +1,78 @@
 # Personal site
+This is my personal site
 
-This is my website built with [Hugo](https://gohugo.io/), using the PaperMod theme.
+## 📦 Tech Stack
 
-## Prerequisites
+### Core
+- React 18.3
+- TypeScript 5.8
+- Vite 7.1
 
-- Hugo Extended Version (recommended v0.100.0 or newer)
-- Git
+## 🛠️ Getting Started
 
-## Local Development
+### Prerequisites
 
-1. Clone this repository:
+- Node.js 18+ 
+- npm or pnpm
+
+### Installation
+
+1. Clone the repository:
 ```bash
-git clone --recursive https://github.com/dtutila/dtutila.github.io.git
-cd dtutdtutila.github.io.gitila
+git clone <your-repo-url>
+cd vite_react_shadcn_ts
 ```
 
-2. Start the Hugo development server:
+2. Install dependencies:
 ```bash
-hugo server -D
+npm install
 ```
 
-The site will be available at http://localhost:1313/
-
-## Building for Production
-
-To build the site for production:
+3. Start the development server:
 ```bash
-hugo --minify
+npm run dev
 ```
 
-The built site will be in the `public/` directory.
+The app will be available at `http://localhost:8080`
 
-## Content Management
+## 📜 Available Scripts
 
-- Images and other static files go in `/static/`
-- Site configuration is in `hugo.yaml`
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run build:dev` - Build in development mode
+- `npm run preview` - Preview production build locally
+- `npm run lint` - Run ESLint
 
-## Theme
+## 📁 Project Structure
 
-This site uses the PaperMod theme. Theme documentation can be found at:
-https://github.com/adityatelange/hugo-PaperMod 
+```
+├── src/
+│   ├── assets/          # Static assets (images, etc.)
+│   ├── components/      # React components
+│   │   ├── ui/         # shadcn/ui components
+│   │   ├── Header.tsx
+│   │   ├── Footer.tsx
+│   │   └── ThemeProvider.tsx
+│   ├── hooks/          # Custom React hooks
+│   ├── lib/            # Utility functions
+│   ├── pages/          # Page components
+│   │   ├── Index.tsx
+│   │   └── NotFound.tsx
+│   ├── App.tsx         # Main app component
+│   ├── main.tsx        # Entry point
+│   └── index.css       # Global styles
+├── public/             # Public static files
+├── vite.config.ts      # Vite configuration
+├── tailwind.config.ts  # Tailwind configuration
+├── tsconfig.json       # TypeScript configuration
+└── package.json        # Dependencies and scripts
+```
+
+
+## 🚀 Building for Production
+
+```bash
+npm run build
+```
+
+

@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Tokyo Night Day colors */
+    --background: 230 30% 98%;
+    --foreground: 230 25% 20%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 230 25% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 230 25% 20%;
+
+    --primary: 230 25% 20%;
+    --primary-foreground: 230 30% 98%;
+
+    --secondary: 230 20% 92%;
+    --secondary-foreground: 230 25% 20%;
+
+    --muted: 230 20% 92%;
+    --muted-foreground: 230 15% 50%;
+
+    --accent: 200 90% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 230 30% 98%;
+
+    --border: 230 15% 88%;
+    --input: 230 15% 88%;
+    --ring: 230 25% 20%;
+
+    --radius: 0.75rem;
+
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Tokyo Night Day gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(200 90% 50%) 0%, hsl(265 85% 65%) 100%);
+    --gradient-background: linear-gradient(180deg, hsl(230 30% 98%) 0%, hsl(230 25% 95%) 100%);
+  }
+
+  .dark {
+    /* Nord color scheme */
+    --background: 220 16% 22%;
+    --foreground: 219 28% 88%;
+
+    --card: 222 16% 28%;
+    --card-foreground: 219 28% 88%;
+
+    --popover: 222 16% 28%;
+    --popover-foreground: 219 28% 88%;
+
+    --primary: 193 43% 67%;
+    --primary-foreground: 220 16% 22%;
+
+    --secondary: 220 17% 32%;
+    --secondary-foreground: 219 28% 88%;
+
+    --muted: 220 16% 36%;
+    --muted-foreground: 218 27% 92%;
+
+    --accent: 210 34% 63%;
+    --accent-foreground: 218 27% 94%;
+
+    --destructive: 354 42% 56%;
+    --destructive-foreground: 218 27% 94%;
+
+    --border: 220 16% 36%;
+    --input: 220 16% 36%;
+    --ring: 193 43% 67%;
+    
+    /* Nord gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(193 43% 67%) 0%, hsl(210 34% 63%) 100%);
+    --gradient-background: linear-gradient(180deg, hsl(220 16% 22%) 0%, hsl(220 16% 18%) 100%);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+  
+  html {
+    transition: background-color 0.3s ease;
+  }
+}
