@@ -75,4 +75,38 @@ The app will be available at `http://localhost:8080`
 npm run build
 ```
 
+The build output will be in the `dist` directory.
+
+## 📤 Deploying to GitHub Pages
+
+This project is configured for GitHub Pages deployment with two methods:
+
+### Method 1: Automatic Deployment with GitHub Actions (Recommended)
+
+The project includes a GitHub Actions workflow that automatically builds and deploys your site when you push to the main branch.
+
+**Setup Steps:**
+
+1. Push your code to GitHub
+2. Go to your repository Settings → Pages
+3. Under "Build and deployment", set Source to "GitHub Actions"
+4. Push a commit to the main branch or manually trigger the workflow
+5. Your site will be available at `https://<username>.github.io/<repository-name>/`
+
+**Important:** Update the `base` setting in `vite.config.ts`:
+- For `https://<username>.github.io/<repo-name>/`, set: `base: '/<repo-name>/'`
+- For custom domain or `https://<username>.github.io/`, set: `base: '/'`
+
+### Method 2: Manual Deployment with gh-pages
+
+You can also deploy manually using the gh-pages package:
+
+1. Install dependencies: `npm install`
+2. Update `base` in `vite.config.ts` if needed (see above)
+3. Run: `npm run deploy`
+
+This will build the project and push the `dist` folder to the `gh-pages` branch.
+
+**Note:** For manual deployment, ensure GitHub Pages is set to deploy from the `gh-pages` branch in your repository settings.
+
 
