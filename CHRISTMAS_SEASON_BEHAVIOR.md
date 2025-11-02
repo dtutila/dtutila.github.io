@@ -11,7 +11,7 @@ const isChristmasSeason = () => {
   return month === 10 || month === 11; // November (10) or December (11)
 };
 ```
-
+ 
 ### Behavior by Month
 
 #### ❄️ November & December (Christmas Season)
