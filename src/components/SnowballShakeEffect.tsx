@@ -18,20 +18,26 @@ export const SnowballShakeEffect = ({ isShaking, tilt = { x: 0, y: 0 } }: Snowba
 
   useEffect(() => {
     if (isShaking) {
-      // Generate burst of snowflakes when shaking with velocity
-      const newFlakes = Array.from({ length: 50 }, (_, i) => ({
-        id: Date.now() + i,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        size: 3 + Math.random() * 5,
-        delay: Math.random() * 0.2,
-        velocityX: (Math.random() - 0.5) * 2, // -1 to 1
-        velocityY: (Math.random() - 0.5) * 2, // -1 to 1
-      }));
+      // Generate burst of snowflakes when shaking with realistic velocity distribution
+      const newFlakes = Array.from({ length: 60 }, (_, i) => {
+        // More snowflakes in center, fewer at edges (realistic distribution)
+        const angle = (Math.random() * Math.PI * 2);
+        const distance = Math.random() * Math.random(); // Bias toward center
+        
+        return {
+          id: Date.now() + i,
+          x: 50 + Math.cos(angle) * distance * 40, // Centered burst
+          y: 50 + Math.sin(angle) * distance * 40,
+          size: 2 + Math.random() * 6, // Varied sizes
+          delay: Math.random() * 0.15, // Staggered start
+          velocityX: (Math.random() - 0.5) * 2.5, // -1.25 to 1.25
+          velocityY: (Math.random() - 0.5) * 2.5, // -1.25 to 1.25
+        };
+      });
       setSnowflakes(newFlakes);
 
-      // Clear snowflakes after animation
-      const timer = setTimeout(() => setSnowflakes([]), 2500);
+      // Clear snowflakes after animation completes
+      const timer = setTimeout(() => setSnowflakes([]), 3000);
       return () => clearTimeout(timer);
     }
   }, [isShaking]);

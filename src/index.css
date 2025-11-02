@@ -107,58 +107,89 @@ All colors MUST be HSL.
   }
 }
 
-/* Snowball shake effect animation - smooth and fluid */
-@keyframes shake-snow-smooth {
+/* Snowball shake effect - realistic physics simulation */
+@keyframes shake-snow-physics {
+  /* Initial burst - explosive start */
   0% {
     transform: translate(0, 0) scale(1) rotate(0deg);
     opacity: 0;
   }
-  5% {
+  
+  /* Fade in quickly */
+  3% {
     opacity: 1;
   }
-  15% {
+  
+  /* Initial explosion - fast upward/outward movement */
+  8% {
     transform: translate(
-      calc(var(--velocity-x) * -25px + var(--tilt-x, 0px)), 
-      calc(var(--velocity-y) * 25px + var(--tilt-y, 0px))
-    ) scale(1.15) rotate(calc(var(--velocity-x) * 60deg));
+      calc(var(--velocity-x) * -35px + var(--tilt-x, 0px)), 
+      calc(var(--velocity-y) * -40px + var(--tilt-y, 0px))
+    ) scale(1.2) rotate(calc(var(--velocity-x) * 90deg));
   }
+  
+  /* Peak of trajectory - gravity starts taking over */
+  18% {
+    transform: translate(
+      calc(var(--velocity-x) * -55px + var(--tilt-x, 0px) * 1.5), 
+      calc(var(--velocity-y) * -60px + var(--tilt-y, 0px))
+    ) scale(1.1) rotate(calc(var(--velocity-x) * 180deg));
+  }
+  
+  /* Falling phase begins - gravity acceleration */
   30% {
     transform: translate(
-      calc(var(--velocity-x) * 40px + var(--tilt-x, 0px)), 
-      calc(var(--velocity-y) * -35px + var(--tilt-y, 0px))
-    ) scale(0.9) rotate(calc(var(--velocity-x) * -90deg));
+      calc(var(--velocity-x) * -45px + var(--tilt-x, 0px) * 2), 
+      calc(var(--velocity-y) * -30px + var(--tilt-y, 0px) * 1.5)
+    ) scale(1.0) rotate(calc(var(--velocity-x) * 270deg));
   }
-  50% {
+  
+  /* Accelerating downward - gravity in full effect */
+  45% {
     transform: translate(
-      calc(var(--velocity-x) * -50px + var(--tilt-x, 0px)), 
-      calc(var(--velocity-y) * 50px + var(--tilt-y, 0px))
-    ) scale(1.05) rotate(calc(var(--velocity-x) * 180deg));
+      calc(var(--velocity-x) * -30px + var(--tilt-x, 0px) * 2.5), 
+      calc(var(--velocity-y) * 20px + var(--tilt-y, 0px) * 2)
+    ) scale(0.95) rotate(calc(var(--velocity-x) * 360deg));
   }
-  70% {
+  
+  /* Rapid descent */
+  60% {
     transform: translate(
-      calc(var(--velocity-x) * 30px + var(--tilt-x, 0px)), 
-      calc(var(--velocity-y) * -25px + var(--tilt-y, 0px))
-    ) scale(0.95) rotate(calc(var(--velocity-x) * -120deg));
-    opacity: 1;
+      calc(var(--velocity-x) * -15px + var(--tilt-x, 0px) * 3), 
+      calc(var(--velocity-y) * 80px + var(--tilt-y, 0px) * 2.5)
+    ) scale(0.85) rotate(calc(var(--velocity-x) * 450deg));
   }
-  85% {
+  
+  /* Approaching ground - air resistance */
+  75% {
     transform: translate(
-      calc(var(--velocity-x) * -15px + var(--tilt-x, 0px)), 
-      calc(var(--velocity-y) * 70px + var(--tilt-y, 0px))
-    ) scale(0.8) rotate(calc(var(--velocity-x) * 270deg));
-    opacity: 0.8;
+      calc(var(--velocity-x) * -5px + var(--tilt-x, 0px) * 3), 
+      calc(var(--velocity-y) * 140px + var(--tilt-y, 0px) * 3)
+    ) scale(0.75) rotate(calc(var(--velocity-x) * 520deg));
+    opacity: 0.9;
   }
+  
+  /* Settling - slowing down near ground */
+  88% {
+    transform: translate(
+      calc(var(--tilt-x, 0px) * 3), 
+      calc(180px + var(--tilt-y, 0px) * 3)
+    ) scale(0.6) rotate(calc(var(--velocity-x) * 560deg));
+    opacity: 0.6;
+  }
+  
+  /* Final rest - landed */
   100% {
     transform: translate(
-      calc(var(--tilt-x, 0px)), 
-      calc(90px + var(--tilt-y, 0px))
-    ) scale(0.4) rotate(calc(var(--velocity-x) * 360deg));
+      calc(var(--tilt-x, 0px) * 3), 
+      calc(200px + var(--tilt-y, 0px) * 3)
+    ) scale(0.5) rotate(calc(var(--velocity-x) * 580deg));
     opacity: 0;
   }
 }
 
 .animate-shake-snow-smooth {
-  animation: shake-snow-smooth 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: shake-snow-physics 2.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 /* Christmas lights twinkling animation */
