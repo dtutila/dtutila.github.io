@@ -35,7 +35,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Set zsh as default shell for root
+# Set zsh as default shell for root.
 RUN chsh -s /usr/bin/zsh root
 
 # Set up root user with zsh
