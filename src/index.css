@@ -107,36 +107,58 @@ All colors MUST be HSL.
   }
 }
 
-/* Snowball shake effect animation */
-@keyframes shake-snow {
+/* Snowball shake effect animation - smooth and fluid */
+@keyframes shake-snow-smooth {
   0% {
-    transform: translate(0, 0) scale(1);
+    transform: translate(0, 0) scale(1) rotate(0deg);
     opacity: 0;
   }
-  10% {
+  5% {
     opacity: 1;
   }
-  20% {
-    transform: translate(-20px, 20px) scale(1.2) rotate(45deg);
+  15% {
+    transform: translate(
+      calc(var(--velocity-x) * -25px + var(--tilt-x, 0px)), 
+      calc(var(--velocity-y) * 25px + var(--tilt-y, 0px))
+    ) scale(1.15) rotate(calc(var(--velocity-x) * 60deg));
   }
-  40% {
-    transform: translate(30px, -30px) scale(0.8) rotate(-90deg);
+  30% {
+    transform: translate(
+      calc(var(--velocity-x) * 40px + var(--tilt-x, 0px)), 
+      calc(var(--velocity-y) * -35px + var(--tilt-y, 0px))
+    ) scale(0.9) rotate(calc(var(--velocity-x) * -90deg));
   }
-  60% {
-    transform: translate(-40px, 40px) scale(1.1) rotate(180deg);
+  50% {
+    transform: translate(
+      calc(var(--velocity-x) * -50px + var(--tilt-x, 0px)), 
+      calc(var(--velocity-y) * 50px + var(--tilt-y, 0px))
+    ) scale(1.05) rotate(calc(var(--velocity-x) * 180deg));
   }
-  80% {
-    transform: translate(20px, -20px) scale(0.9) rotate(-45deg);
+  70% {
+    transform: translate(
+      calc(var(--velocity-x) * 30px + var(--tilt-x, 0px)), 
+      calc(var(--velocity-y) * -25px + var(--tilt-y, 0px))
+    ) scale(0.95) rotate(calc(var(--velocity-x) * -120deg));
     opacity: 1;
+  }
+  85% {
+    transform: translate(
+      calc(var(--velocity-x) * -15px + var(--tilt-x, 0px)), 
+      calc(var(--velocity-y) * 70px + var(--tilt-y, 0px))
+    ) scale(0.8) rotate(calc(var(--velocity-x) * 270deg));
+    opacity: 0.8;
   }
   100% {
-    transform: translate(0, 60px) scale(0.5) rotate(360deg);
+    transform: translate(
+      calc(var(--tilt-x, 0px)), 
+      calc(90px + var(--tilt-y, 0px))
+    ) scale(0.4) rotate(calc(var(--velocity-x) * 360deg));
     opacity: 0;
   }
 }
 
-.animate-shake-snow {
-  animation: shake-snow 1.5s ease-out forwards;
+.animate-shake-snow-smooth {
+  animation: shake-snow-smooth 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 /* Christmas lights twinkling animation */

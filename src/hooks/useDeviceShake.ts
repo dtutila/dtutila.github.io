@@ -1,17 +1,47 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 export const useDeviceShake = (threshold = 15) => {
   const [isShaking, setIsShaking] = useState(false);
   const [lastShakeTime, setLastShakeTime] = useState(0);
+  const [permissionGranted, setPermissionGranted] = useState(false);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+
+  // Request permission function for iOS
+  const requestPermission = useCallback(async () => {
+    if (typeof (DeviceMotionEvent as any).requestPermission === 'function') {
+      try {
+        const permissionState = await (DeviceMotionEvent as any).requestPermission();
+        if (permissionState === 'granted') {
+          setPermissionGranted(true);
+          return true;
+        }
+        return false;
+      } catch (error) {
+        console.warn('DeviceMotion permission denied:', error);
+        return false;
+      }
+    }
+    // Non-iOS or older iOS - permission not needed
+    setPermissionGranted(true);
+    return true;
+  }, []);
 
   useEffect(() => {
+    // Check if device motion is supported
+    if (!window.DeviceMotionEvent) {
+      console.warn('DeviceMotion not supported on this device');
+      return;
+    }
+
     let lastX = 0;
     let lastY = 0;
     let lastZ = 0;
     let lastUpdate = 0;
+    let isListening = false;
 
     const handleMotion = (event: DeviceMotionEvent) => {
-      const acceleration = event.accelerationIncludingGravity;
+      // Try both accelerationIncludingGravity and acceleration for compatibility
+      const acceleration = event.accelerationIncludingGravity || event.acceleration;
       if (!acceleration) return;
 
       const currentTime = Date.now();
@@ -21,19 +51,31 @@ export const useDeviceShake = (threshold = 15) => {
 
       lastUpdate = currentTime;
 
-      const x = acceleration.x ?? 0;
-      const y = acceleration.y ?? 0;
-      const z = acceleration.z ?? 0;
+      // Handle null values with fallback to 0
+      const x = acceleration.x !== null ? acceleration.x : 0;
+      const y = acceleration.y !== null ? acceleration.y : 0;
+      const z = acceleration.z !== null ? acceleration.z : 0;
 
+      // Update tilt for snow direction (normalize to -1 to 1 range)
+      // X: left/right tilt, Y: forward/backward tilt
+      setTilt({
+        x: Math.max(-1, Math.min(1, x / 10)), // Normalize to -1 to 1
+        y: Math.max(-1, Math.min(1, y / 10))
+      });
+
+      // Calculate deltas
       const deltaX = Math.abs(x - lastX);
       const deltaY = Math.abs(y - lastY);
       const deltaZ = Math.abs(z - lastZ);
 
-      // Check if movement exceeds threshold
-      if ((deltaX > threshold && deltaY > threshold) || 
-          (deltaX > threshold && deltaZ > threshold) || 
-          (deltaY > threshold && deltaZ > threshold)) {
-        
+      // Check if movement exceeds threshold (more lenient for better detection)
+      const isShakeDetected = 
+        (deltaX > threshold && deltaY > threshold) || 
+        (deltaX > threshold && deltaZ > threshold) || 
+        (deltaY > threshold && deltaZ > threshold) ||
+        (deltaX + deltaY + deltaZ > threshold * 2.5); // Combined threshold for better detection
+      
+      if (isShakeDetected) {
         const now = Date.now();
         // Prevent rapid repeated shakes
         if (now - lastShakeTime > 1000) {
@@ -50,24 +92,31 @@ export const useDeviceShake = (threshold = 15) => {
       lastZ = z;
     };
 
-    // Request permission for iOS 13+
-    if (typeof (DeviceMotionEvent as any).requestPermission === 'function') {
-      (DeviceMotionEvent as any).requestPermission()
-        .then((permissionState: string) => {
-          if (permissionState === 'granted') {
-            window.addEventListener('devicemotion', handleMotion);
-          }
-        })
-        .catch(console.error);
-    } else {
-      // Non-iOS or older iOS
-      window.addEventListener('devicemotion', handleMotion);
+    const startListening = async () => {
+      if (isListening) return;
+
+      // Request permission if needed (iOS 13+)
+      const hasPermission = await requestPermission();
+      
+      if (hasPermission) {
+        window.addEventListener('devicemotion', handleMotion, { passive: true });
+        isListening = true;
+      }
+    };
+
+    // Auto-start for Android and older iOS
+    if (typeof (DeviceMotionEvent as any).requestPermission !== 'function') {
+      startListening();
     }
 
+    // Cleanup
     return () => {
-      window.removeEventListener('devicemotion', handleMotion);
+      if (isListening) {
+        window.removeEventListener('devicemotion', handleMotion);
+        isListening = false;
+      }
     };
-  }, [threshold, lastShakeTime]);
+  }, [threshold, lastShakeTime, requestPermission]);
 
-  return isShaking;
+  return { isShaking, requestPermission, permissionGranted, tilt };
 };
