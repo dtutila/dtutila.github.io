@@ -1,29 +1,39 @@
 {
-  "name": "Node.js TypeScript Dev Container",
+  "name": "dtutila site dev",
+  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
   "build": {
-    "dockerfile": "Dockerfile",
-    "context": ".."
+    "dockerfile": "Dockerfile"
   },
+
+  "remoteUser": "root",
   "workspaceFolder": "/workspace",
-  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
-  "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {
-      "version": "latest",
-      "moby": false
-    }
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+  "containerEnv": {
+    "HOME": "/root"
   },
-  "postCreateCommand": "bash .devcontainer/setup.sh",
+ 
+  "mounts": [
+    "source=${localEnv:SSH_AUTH_SOCK},target=/ssh-agent,type=bind,consistency=cached",
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/root/.ssh,type=bind,readonly",
+    "source=${localWorkspaceFolder}/.devcontainer/devconf/claude,target=/root/.claude,type=bind",
+    "source=${localWorkspaceFolder}/.devcontainer/devconf/.claude.json,target=/root/.claude.json,type=bind",
+    "source=${localWorkspaceFolder}/.devcontainer/devconf/codex,target=/root/.codex,type=bind"
+  ],
+  "remoteEnv": {
+    "SSH_AUTH_SOCK": "/ssh-agent"
+  },
   "customizations": {
     "vscode": {
       "extensions": [
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode",
-        "ms-azuretools.vscode-docker"
-      ],
-      "settings": {
-        "terminal.integrated.defaultProfile.linux": "bash"
-      }
+        "openai.chatgpt",
+        "anthropic.claude-code",
+        "ms-python.python"
+      ]
     }
   },
-  "remoteUser": "root"
+  "postCreateCommand": "/workspace/.devcontainer/setup.sh",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+
+  }
 }
