@@ -11,6 +11,7 @@ export const ShakePermissionButton = ({ requestPermission, permissionGranted }: 
 
   useEffect(() => {
     // Check if we need to show permission button (iOS 13+)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (typeof (DeviceMotionEvent as any).requestPermission === 'function' && !permissionGranted) {
       setNeedsPermission(true);
     }

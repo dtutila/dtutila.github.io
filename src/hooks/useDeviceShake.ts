@@ -8,8 +8,10 @@ export const useDeviceShake = (threshold = 15) => {
 
   // Request permission function for iOS
   const requestPermission = useCallback(async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (typeof (DeviceMotionEvent as any).requestPermission === 'function') {
       try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const permissionState = await (DeviceMotionEvent as any).requestPermission();
         if (permissionState === 'granted') {
           setPermissionGranted(true);
@@ -105,6 +107,7 @@ export const useDeviceShake = (threshold = 15) => {
     };
 
     // Auto-start for Android and older iOS
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (typeof (DeviceMotionEvent as any).requestPermission !== 'function') {
       startListening();
     }

@@ -2,19 +2,18 @@
 
 ## Auto-Activation Logic ✅
 
-The Christmas effects are **only active by default during November and December** in dark mode.
+The Christmas effects are **ONLY active in DARK MODE during November and December**.
 
-### Date Detection
+### Dual Requirements
 ```typescript
-const isChristmasSeason = () => {
-  const month = new Date().getMonth();
-  return month === 10 || month === 11; // November (10) or December (11)
-};
+// Must satisfy BOTH conditions:
+1. isChristmasSeason() → month === 10 || month === 11
+2. isDarkMode() → document.documentElement.classList.contains('dark')
 ```
- 
-### Behavior by Month
 
-#### ❄️ November & December (Christmas Season)
+### Theme Behavior
+
+#### 🌙 Dark Mode (During Nov/Dec)
 **Auto-activated on page load:**
 - ✅ Falling snow effect
 - ✅ Santa hat on circle image
@@ -22,11 +21,24 @@ const isChristmasSeason = () => {
 - ✅ Snow accumulation on footer
 - ✅ Shake effect enabled
 - ✅ Tilt-responsive snow
+- ✅ Santa hat toggle button visible
 
-**Requirements:**
-- Must be in **dark mode**
-- Santa hat toggle button visible in header
-- User can toggle off if desired
+**Dynamic behavior:**
+- Switching to light mode → Christmas effects immediately disabled
+- Switching back to dark mode → Christmas effects re-enabled
+- User can manually toggle off via Santa hat button
+
+#### ☀️ Light Mode (Any Time)
+**Never activated:**
+- ❌ No Christmas effects
+- ❌ No Santa hat button
+- ❌ All Christmas features hidden
+- ❌ Even during November/December
+
+**Why:**
+- Christmas theme designed for dark mode only
+- Better visual contrast and atmosphere
+- Automatic theme detection and response
 
 #### 🚫 January - October (Non-Christmas Season)
 **Not activated:**
@@ -45,13 +57,30 @@ const isChristmasSeason = () => {
 ### 1. EasterEggContext (`/src/contexts/EasterEggContext.tsx`)
 ```typescript
 useEffect(() => {
-  if (isChristmasSeason()) {
-    setIsSnowActive(true);  // Auto-activate during Nov/Dec
-  }
+  const checkAndActivate = () => {
+    if (isChristmasSeason() && isDarkMode()) {
+      setIsSnowActive(true);  // Auto-activate during Nov/Dec in dark mode
+    } else {
+      setIsSnowActive(false); // Disable in light mode or outside season
+    }
+  };
+
+  checkAndActivate();
+
+  // Watch for theme changes
+  const observer = new MutationObserver(checkAndActivate);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['class'],
+  });
+
+  return () => observer.disconnect();
 }, []);
 ```
-- Runs once on mount
-- Only sets `isSnowActive` to `true` if current month is 10 or 11
+- Runs on mount and watches for theme changes
+- Only activates if BOTH Christmas season AND dark mode
+- Automatically disables when switching to light mode
+- Re-enables when switching back to dark mode
 
 ### 2. ChristmasHat Component (`/src/components/ChristmasHat.tsx`)
 ```typescript

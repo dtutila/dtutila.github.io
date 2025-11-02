@@ -15,15 +15,36 @@ const isChristmasSeason = () => {
   return month === 10 || month === 11; // November (10) or December (11)
 };
 
+// Check if dark mode is active
+const isDarkMode = () => {
+  return document.documentElement.classList.contains('dark');
+};
+
 export const EasterEggProvider = ({ children }: { children: ReactNode }) => {
   const [isDropped, setIsDropped] = useState(false);
   const [isSnowActive, setIsSnowActive] = useState(false);
 
-  // Auto-activate snow effect during Christmas season
+  // Auto-activate snow effect during Christmas season in dark mode
   useEffect(() => {
-    if (isChristmasSeason()) {
-      setIsSnowActive(true);
-    }
+    const checkAndActivate = () => {
+      if (isChristmasSeason() && isDarkMode()) {
+        setIsSnowActive(true);
+      } else {
+        setIsSnowActive(false);
+      }
+    };
+
+    // Check on mount
+    checkAndActivate();
+
+    // Watch for theme changes
+    const observer = new MutationObserver(checkAndActivate);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+
+    return () => observer.disconnect();
   }, []);
 
   const triggerDrop = () => {

@@ -7,6 +7,7 @@ interface ChristmasLightsProps {
 export const ChristmasLights = ({ isActive }: ChristmasLightsProps) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isChristmasSeason, setIsChristmasSeason] = useState(false);
+  const [lightCount, setLightCount] = useState(20);
 
   useEffect(() => {
     // Check if dark mode is active
@@ -30,6 +31,40 @@ export const ChristmasLights = ({ isActive }: ChristmasLightsProps) => {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    // Calculate number of lights based on screen width
+    const calculateLightCount = () => {
+      const width = window.innerWidth;
+      
+      // Responsive breakpoints
+      if (width < 640) {
+        // Mobile: 8-12 lights
+        setLightCount(Math.max(8, Math.floor(width / 50)));
+      } else if (width < 768) {
+        // Small tablet: 12-15 lights
+        setLightCount(Math.max(12, Math.floor(width / 55)));
+      } else if (width < 1024) {
+        // Tablet: 15-20 lights
+        setLightCount(Math.max(15, Math.floor(width / 60)));
+      } else if (width < 1280) {
+        // Small desktop: 20-25 lights
+        setLightCount(Math.max(20, Math.floor(width / 55)));
+      } else if (width < 1536) {
+        // Desktop: 25-30 lights
+        setLightCount(Math.max(25, Math.floor(width / 52)));
+      } else {
+        // Large desktop: 30-35 lights
+        setLightCount(Math.max(30, Math.floor(width / 50)));
+      }
+    };
+
+    calculateLightCount();
+
+    // Recalculate on window resize
+    window.addEventListener('resize', calculateLightCount);
+    return () => window.removeEventListener('resize', calculateLightCount);
+  }, []);
+
   // Only show in dark mode during November/December when active
   if (!isDarkMode || !isChristmasSeason || !isActive) {
     return null;
@@ -46,7 +81,7 @@ export const ChristmasLights = ({ isActive }: ChristmasLightsProps) => {
     '#F97316', // orange
   ];
 
-  const lights = Array.from({ length: 20 }, (_, i) => ({
+  const lights = Array.from({ length: lightCount }, (_, i) => ({
     id: i,
     color: lightColors[i % lightColors.length],
     delay: i * 0.1,
