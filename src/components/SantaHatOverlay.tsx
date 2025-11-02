@@ -17,7 +17,7 @@ export const SantaHatOverlay = ({ isActive }: SantaHatOverlayProps) => {
         className="w-full h-full object-contain"
         style={{
           filter: 'drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3))',
-          transform: 'rotate(-10deg) translateX(8px)',
+          transform: 'rotate(-10deg) translateX(8px) scale(1.1)',
           backgroundColor: 'transparent',
           mixBlendMode: 'normal',
         }}
