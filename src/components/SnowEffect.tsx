@@ -8,7 +8,11 @@ interface Snowflake {
   delay: number;
 }
 
-export const SnowEffect = () => {
+interface SnowEffectProps {
+  tilt?: { x: number; y: number };
+}
+
+export const SnowEffect = ({ tilt = { x: 0, y: 0 } }: SnowEffectProps) => {
   const [snowflakes, setSnowflakes] = useState<Snowflake[]>([]);
 
   useEffect(() => {
@@ -23,6 +27,9 @@ export const SnowEffect = () => {
     setSnowflakes(flakes);
   }, []);
 
+  // Calculate horizontal drift based on tilt
+  const horizontalDrift = tilt.x * 100; // -100 to 100 pixels
+
   return (
     <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
       {/* Falling snowflakes */}
@@ -36,6 +43,8 @@ export const SnowEffect = () => {
             height: `${flake.size}px`,
             animationDuration: `${flake.animationDuration}s`,
             animationDelay: `${flake.delay}s`,
+            transform: `translateX(${horizontalDrift}px)`,
+            transition: 'transform 0.3s ease-out',
           }}
         >
           <div

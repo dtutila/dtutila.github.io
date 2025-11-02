@@ -7,6 +7,7 @@ import { EasterEggProvider, useEasterEgg } from "@/contexts/EasterEggContext";
 import { SnowEffect } from "@/components/SnowEffect";
 import { SantaHatOverlay } from "@/components/SantaHatOverlay";
 import { SnowballShakeEffect } from "@/components/SnowballShakeEffect";
+import { ShakePermissionButton } from "@/components/ShakePermissionButton";
 import { useDeviceShake } from "@/hooks/useDeviceShake";
 
 const IndexContent = () => {
@@ -14,7 +15,7 @@ const IndexContent = () => {
   const [isHovering, setIsHovering] = useState(false);
   const logoRef = useRef<HTMLDivElement>(null);
   const { isSnowActive } = useEasterEgg();
-  const isShaking = useDeviceShake();
+  const { isShaking, requestPermission, permissionGranted, tilt } = useDeviceShake();
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (logoRef.current) {
@@ -27,8 +28,9 @@ const IndexContent = () => {
 
   return (
     <>
-      {isSnowActive && <SnowEffect />}
-      <SnowballShakeEffect isShaking={isShaking} />
+      {isSnowActive && <SnowEffect tilt={tilt} />}
+      <SnowballShakeEffect isShaking={isShaking} tilt={tilt} />
+      <ShakePermissionButton requestPermission={requestPermission} permissionGranted={permissionGranted} />
       <main className="min-h-screen bg-gradient-to-b from-background to-background transition-colors" style={{ background: 'var(--gradient-background)' }}>
         <Header />
 
