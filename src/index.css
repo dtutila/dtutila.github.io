@@ -8,42 +8,47 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Tokyo Night Day colors */
-    --background: 230 30% 98%;
-    --foreground: 230 25% 20%;
+    /* Gruvbox Light color scheme */
+    --background: 40 56% 91%; /* #fbf1c7 light0 */
+    --foreground: 30 22% 25%; /* #3c3836 dark1 */
 
-    --card: 0 0% 100%;
-    --card-foreground: 230 25% 20%;
+    --card: 39 57% 94%; /* #f9f5d7 light0_hard */
+    --card-foreground: 30 22% 25%; /* #3c3836 dark1 */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 230 25% 20%;
+    --popover: 39 57% 94%; /* #f9f5d7 light0_hard */
+    --popover-foreground: 30 22% 25%; /* #3c3836 dark1 */
 
-    --primary: 230 25% 20%;
-    --primary-foreground: 230 30% 98%;
+    --primary: 24 56% 50%; /* #d65d0e neutral_orange */
+    --primary-foreground: 40 56% 91%; /* #fbf1c7 light0 */
 
-    --secondary: 230 20% 92%;
-    --secondary-foreground: 230 25% 20%;
+    --secondary: 40 40% 81%; /* #ebdbb2 light1 */
+    --secondary-foreground: 30 22% 25%; /* #3c3836 dark1 */
 
-    --muted: 230 20% 92%;
-    --muted-foreground: 230 15% 50%;
+    --muted: 40 40% 81%; /* #ebdbb2 light1 */
+    --muted-foreground: 30 17% 38%; /* #665c54 dark3 */
 
-    --accent: 200 90% 50%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 62 61% 41%; /* #98971a neutral_green */
+    --accent-foreground: 40 56% 91%; /* #fbf1c7 light0 */
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 230 30% 98%;
+    --destructive: 4 89% 58%; /* #fb4934 bright_red */
+    --destructive-foreground: 40 56% 91%; /* #fbf1c7 light0 */
 
-    --border: 230 15% 88%;
-    --input: 230 15% 88%;
-    --ring: 230 25% 20%;
+    --border: 40 29% 73%; /* #d5c4a1 light2 */
+    --input: 40 29% 73%; /* #d5c4a1 light2 */
+    --ring: 24 56% 50%; /* #d65d0e neutral_orange */
 
     --radius: 0.75rem;
 
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     
-    /* Tokyo Night Day gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(200 90% 50%) 0%, hsl(265 85% 65%) 100%);
-    --gradient-background: linear-gradient(180deg, hsl(230 30% 98%) 0%, hsl(230 25% 95%) 100%);
+    /* Gruvbox Light gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(24 56% 50%) 0%, hsl(62 61% 41%) 100%);
+    --gradient-background: linear-gradient(180deg, hsl(40 56% 91%) 0%, hsl(40 40% 81%) 100%);
+    
+    /* Gruvbox Light glow colors */
+    --glow-primary: 24, 56%, 50%; /* #d65d0e neutral_orange */
+    --glow-secondary: 62, 61%, 41%; /* #98971a neutral_green */
+    --glow-tertiary: 174, 89%, 25%; /* #076678 faded_blue */
   }
 
   .dark {
@@ -79,6 +84,11 @@ All colors MUST be HSL.
     /* Tokyo Night gradients */
     --gradient-primary: linear-gradient(135deg, hsl(217 92% 76%) 0%, hsl(267 84% 81%) 100%);
     --gradient-background: linear-gradient(180deg, hsl(225 27% 12%) 0%, hsl(230 20% 16%) 100%);
+    
+    /* Tokyo Night glow colors */
+    --glow-primary: 180, 100%, 50%; /* #00ffd2 cyan */
+    --glow-secondary: 338, 100%, 64%; /* #ff4499 pink */
+    --glow-tertiary: 200, 100%, 26%; /* #004687 blue */
   }
 }
 

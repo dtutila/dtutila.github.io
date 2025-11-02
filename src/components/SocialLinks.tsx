@@ -109,7 +109,7 @@ function SocialIcon({ link }: { link: SocialLink }) {
         className="relative inline-block transition-all duration-300"
         style={{
           filter: isHovering 
-            ? `drop-shadow(0 0 20px rgba(0, 255, 210, 0.6)) drop-shadow(0 0 35px rgba(255, 68, 153, 0.4)) drop-shadow(0 0 50px rgba(0, 70, 135, 0.3))`
+            ? `drop-shadow(0 0 20px hsla(var(--glow-primary), 0.6)) drop-shadow(0 0 35px hsla(var(--glow-secondary), 0.4)) drop-shadow(0 0 50px hsla(var(--glow-tertiary), 0.3))`
             : 'drop-shadow(0 0 0px transparent)'
         }}
         onMouseMove={handleMouseMove}
@@ -121,9 +121,9 @@ function SocialIcon({ link }: { link: SocialLink }) {
           className="absolute -inset-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
           style={{
             background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, 
-              rgba(0, 255, 210, 0.4) 0%, 
-              rgba(255, 68, 153, 0.3) 30%, 
-              rgba(0, 70, 135, 0.2) 60%, 
+              hsla(var(--glow-primary), 0.4) 0%, 
+              hsla(var(--glow-secondary), 0.3) 30%, 
+              hsla(var(--glow-tertiary), 0.2) 60%, 
               transparent 100%)`,
             filter: 'blur(20px)',
           }}

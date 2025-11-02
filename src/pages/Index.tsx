@@ -31,8 +31,8 @@ const Index = () => {
               style={{ 
                 background: 'var(--gradient-primary)',
                 boxShadow: isHovering 
-                  ? `0 0 60px rgba(0, 255, 210, 0.6), 0 0 100px rgba(255, 68, 153, 0.4), 0 0 140px rgba(0, 70, 135, 0.3)`
-                  : '0 0 30px rgba(0, 255, 210, 0.3), 0 0 50px rgba(255, 68, 153, 0.2)'
+                  ? `0 0 60px hsla(var(--glow-primary), 0.6), 0 0 100px hsla(var(--glow-secondary), 0.4), 0 0 140px hsla(var(--glow-tertiary), 0.3)`
+                  : '0 0 30px hsla(var(--glow-primary), 0.3), 0 0 50px hsla(var(--glow-secondary), 0.2)'
               }}
               onMouseMove={handleMouseMove}
               onMouseEnter={() => setIsHovering(true)}
@@ -43,9 +43,9 @@ const Index = () => {
                 className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                 style={{
                   background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, 
-                    rgba(0, 255, 210, 0.4) 0%, 
-                    rgba(255, 68, 153, 0.3) 30%, 
-                    rgba(0, 70, 135, 0.2) 60%, 
+                    hsla(var(--glow-primary), 0.4) 0%, 
+                    hsla(var(--glow-secondary), 0.3) 30%, 
+                    hsla(var(--glow-tertiary), 0.2) 60%, 
                     transparent 100%)`,
                   filter: 'blur(20px)',
                 }}
