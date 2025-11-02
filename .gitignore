@@ -29,3 +29,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# Devcontainer config (contains auth tokens and credentials)
+.devcontainer/devconf/claude/*
+.devcontainer/devconf/codex/*
+.devcontainer/devconf/.claude.json
+!.devcontainer/devconf/claude/.gitkeep
+!.devcontainer/devconf/codex/.gitkeep
+!.devcontainer/devconf/README.md
