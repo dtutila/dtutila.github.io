@@ -107,6 +107,28 @@ All colors MUST be HSL.
   }
 }
 
+/* Christmas snow animation */
+@keyframes snowfall {
+  0% {
+    transform: translateY(-10vh) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh) translateX(100px);
+    opacity: 0;
+  }
+}
+
+.animate-snowfall {
+  animation: snowfall linear infinite;
+}
+
 /* Easter egg animation - falling and bouncing text */
 @keyframes fall-and-bounce {
   0% {

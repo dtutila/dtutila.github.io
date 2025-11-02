@@ -3,12 +3,14 @@ import { Footer } from "@/components/Footer";
 import { SocialLinks } from "@/components/SocialLinks";
 import logo from "@/assets/logo.png";
 import { useState, useRef } from "react";
-import { EasterEggProvider } from "@/contexts/EasterEggContext";
+import { EasterEggProvider, useEasterEgg } from "@/contexts/EasterEggContext";
+import { SnowEffect } from "@/components/SnowEffect";
 
-const Index = () => {
+const IndexContent = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const logoRef = useRef<HTMLDivElement>(null);
+  const { isSnowActive } = useEasterEgg();
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (logoRef.current) {
@@ -20,7 +22,8 @@ const Index = () => {
   };
 
   return (
-    <EasterEggProvider>
+    <>
+      {isSnowActive && <SnowEffect />}
       <main className="min-h-screen bg-gradient-to-b from-background to-background transition-colors" style={{ background: 'var(--gradient-background)' }}>
         <Header />
 
@@ -78,6 +81,14 @@ const Index = () => {
 
         <Footer />
       </main>
+    </>
+  );
+};
+
+const Index = () => {
+  return (
+    <EasterEggProvider>
+      <IndexContent />
     </EasterEggProvider>
   );
 };

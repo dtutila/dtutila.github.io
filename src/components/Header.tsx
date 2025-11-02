@@ -1,9 +1,10 @@
 import { ThemeToggle } from "./ThemeToggle";
 import { useEasterEgg } from "@/contexts/EasterEggContext";
 import { useState, useEffect } from "react";
+import { ChristmasHat } from "./ChristmasHat";
 
 export const Header = () => {
-  const { isDropped, triggerDrop } = useEasterEgg();
+  const { isDropped, triggerDrop, isSnowActive, setIsSnowActive } = useEasterEgg();
   const [isAnimating, setIsAnimating] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -49,7 +50,13 @@ export const Header = () => {
             <span className="invisible">dtutila</span>
           )}
         </div>
-        <ThemeToggle />
+        <div className="flex items-center gap-3">
+          <ChristmasHat 
+            isActive={isSnowActive} 
+            onToggle={() => setIsSnowActive(!isSnowActive)} 
+          />
+          <ThemeToggle />
+        </div>
       </div>
       
       {/* Falling animation element - only in light mode */}
