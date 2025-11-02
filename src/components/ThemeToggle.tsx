@@ -10,7 +10,7 @@ export function ThemeToggle() {
       variant="ghost"
       size="icon"
       onClick={toggleTheme}
-      className="transition-all hover:scale-110"
+      className="transition-all hover:scale-110 dark:text-foreground dark:hover:text-foreground dark:hover:bg-foreground/10"
       aria-label="Toggle theme"
     >
       {theme === "light" ? (

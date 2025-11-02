@@ -3,6 +3,7 @@ import { Footer } from "@/components/Footer";
 import { SocialLinks } from "@/components/SocialLinks";
 import logo from "@/assets/logo.png";
 import { useState, useRef } from "react";
+import { EasterEggProvider } from "@/contexts/EasterEggContext";
 
 const Index = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -19,8 +20,9 @@ const Index = () => {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-background to-background transition-colors" style={{ background: 'var(--gradient-background)' }}>
-      <Header />
+    <EasterEggProvider>
+      <main className="min-h-screen bg-gradient-to-b from-background to-background transition-colors" style={{ background: 'var(--gradient-background)' }}>
+        <Header />
 
       <div className="container mx-auto flex min-h-screen items-center justify-center px-6 py-20">
         <div className="max-w-3xl text-center animate-in fade-in duration-1000">
@@ -74,8 +76,9 @@ const Index = () => {
         </div>
       </div>
 
-      <Footer />
-    </main>
+        <Footer />
+      </main>
+    </EasterEggProvider>
   );
 };
 

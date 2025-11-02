@@ -106,3 +106,40 @@ All colors MUST be HSL.
     transition: background-color 0.3s ease;
   }
 }
+
+/* Easter egg animation - falling and bouncing text */
+@keyframes fall-and-bounce {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  /* Fall down */
+  35% {
+    transform: translateY(calc(100vh - 8rem)) rotate(360deg);
+  }
+  /* First bounce - highest */
+  45% {
+    transform: translateY(calc(100vh - 14rem)) rotate(450deg);
+  }
+  50% {
+    transform: translateY(calc(100vh - 8rem)) rotate(540deg);
+  }
+  /* Second bounce - medium */
+  58% {
+    transform: translateY(calc(100vh - 11rem)) rotate(630deg);
+  }
+  63% {
+    transform: translateY(calc(100vh - 8rem)) rotate(720deg);
+  }
+  /* Third bounce - small */
+  69% {
+    transform: translateY(calc(100vh - 9.5rem)) rotate(810deg);
+  }
+  74% {
+    transform: translateY(calc(100vh - 8rem)) rotate(900deg);
+  }
+  /* Settle */
+  100% {
+    transform: translateY(calc(100vh - 8rem)) rotate(900deg);
+    opacity: 0;
+  }
+}
