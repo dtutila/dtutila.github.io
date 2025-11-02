@@ -107,6 +107,38 @@ All colors MUST be HSL.
   }
 }
 
+/* Snowball shake effect animation */
+@keyframes shake-snow {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  20% {
+    transform: translate(-20px, 20px) scale(1.2) rotate(45deg);
+  }
+  40% {
+    transform: translate(30px, -30px) scale(0.8) rotate(-90deg);
+  }
+  60% {
+    transform: translate(-40px, 40px) scale(1.1) rotate(180deg);
+  }
+  80% {
+    transform: translate(20px, -20px) scale(0.9) rotate(-45deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 60px) scale(0.5) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.animate-shake-snow {
+  animation: shake-snow 1.5s ease-out forwards;
+}
+
 /* Christmas lights twinkling animation */
 @keyframes twinkle {
   0%, 100% {

@@ -6,12 +6,15 @@ import { useState, useRef } from "react";
 import { EasterEggProvider, useEasterEgg } from "@/contexts/EasterEggContext";
 import { SnowEffect } from "@/components/SnowEffect";
 import { SantaHatOverlay } from "@/components/SantaHatOverlay";
+import { SnowballShakeEffect } from "@/components/SnowballShakeEffect";
+import { useDeviceShake } from "@/hooks/useDeviceShake";
 
 const IndexContent = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const logoRef = useRef<HTMLDivElement>(null);
   const { isSnowActive } = useEasterEgg();
+  const isShaking = useDeviceShake();
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (logoRef.current) {
@@ -25,6 +28,7 @@ const IndexContent = () => {
   return (
     <>
       {isSnowActive && <SnowEffect />}
+      <SnowballShakeEffect isShaking={isShaking} />
       <main className="min-h-screen bg-gradient-to-b from-background to-background transition-colors" style={{ background: 'var(--gradient-background)' }}>
         <Header />
 
