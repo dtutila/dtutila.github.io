@@ -107,26 +107,39 @@ All colors MUST be HSL.
   }
 }
 
-/* Christmas snow animation */
-@keyframes snowfall {
+/* Christmas lights twinkling animation */
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(0.9);
+  }
+}
+
+/* Christmas snow animation - accumulates at bottom */
+@keyframes snowfall-accumulate {
   0% {
     transform: translateY(-10vh) translateX(0);
     opacity: 0;
   }
-  10% {
+  5% {
     opacity: 1;
   }
-  90% {
+  95% {
     opacity: 1;
   }
   100% {
-    transform: translateY(110vh) translateX(100px);
-    opacity: 0;
+    transform: translateY(calc(100vh - 60px)) translateX(100px);
+    opacity: 1;
   }
 }
 
-.animate-snowfall {
-  animation: snowfall linear infinite;
+.animate-snowfall-accumulate {
+  animation: snowfall-accumulate linear infinite;
+  animation-fill-mode: forwards;
 }
 
 /* Easter egg animation - falling and bouncing text */

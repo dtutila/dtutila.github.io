@@ -1,8 +1,9 @@
 import { useEasterEgg } from "@/contexts/EasterEggContext";
 import { useState, useEffect } from "react";
+import { SnowAccumulation } from "./SnowAccumulation";
 
 export const Footer = () => {
-  const { isDropped } = useEasterEgg();
+  const { isDropped, isSnowActive } = useEasterEgg();
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
@@ -25,6 +26,7 @@ export const Footer = () => {
 
   return (
     <footer className="fixed bottom-0 left-0 right-0 backdrop-blur-sm bg-background/80 border-t border-border">
+      {isSnowActive && isDarkMode && <SnowAccumulation />}
       <div className="container mx-auto px-6 py-4 relative">
         {isDropped && !isDarkMode && (
           <div className="absolute left-8 bottom-4 text-lg font-semibold text-foreground animate-in fade-in duration-300">

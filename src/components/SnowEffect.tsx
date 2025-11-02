@@ -25,10 +25,11 @@ export const SnowEffect = () => {
 
   return (
     <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
+      {/* Falling snowflakes */}
       {snowflakes.map((flake) => (
         <div
           key={flake.id}
-          className="absolute animate-snowfall"
+          className="absolute animate-snowfall-accumulate"
           style={{
             left: `${flake.left}%`,
             width: `${flake.size}px`,

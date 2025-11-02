@@ -2,6 +2,7 @@ import { ThemeToggle } from "./ThemeToggle";
 import { useEasterEgg } from "@/contexts/EasterEggContext";
 import { useState, useEffect } from "react";
 import { ChristmasHat } from "./ChristmasHat";
+import { ChristmasLights } from "./ChristmasLights";
 
 export const Header = () => {
   const { isDropped, triggerDrop, isSnowActive, setIsSnowActive } = useEasterEgg();
@@ -36,6 +37,7 @@ export const Header = () => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-sm bg-background/80 border-b border-border">
+      <ChristmasLights isActive={isSnowActive} />
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
         <div className="text-lg font-semibold text-foreground">
           {!isDropped || isDarkMode ? (
