@@ -1,4 +1,5 @@
 import { Github, Linkedin } from "lucide-react";
+import { useState, useRef } from "react";
 
 // X (formerly Twitter) icon
 const XIcon = () => (
@@ -75,20 +76,63 @@ export function SocialLinks() {
   return (
     <div className="flex gap-6">
       {socialLinks.map((link) => (
-        <a
-          key={link.name}
-          href={link.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group relative text-muted-foreground transition-colors hover:text-accent"
-          aria-label={link.name}
-        >
-          <div className="transition-transform group-hover:scale-110 group-hover:-translate-y-1">
-            {link.icon}
-          </div>
-          <span className="sr-only">{link.name}</span>
-        </a>
+        <SocialIcon key={link.name} link={link} />
       ))}
     </div>
+  );
+}
+
+function SocialIcon({ link }: { link: SocialLink }) {
+  const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
+  const [isHovering, setIsHovering] = useState(false);
+  const iconRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (iconRef.current) {
+      const rect = iconRef.current.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      setMousePosition({ x, y });
+    }
+  };
+
+  return (
+    <a
+      href={link.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group relative text-muted-foreground transition-colors hover:text-accent"
+      aria-label={link.name}
+    >
+      <div 
+        ref={iconRef}
+        className="relative inline-block transition-all duration-300"
+        style={{
+          filter: isHovering 
+            ? `drop-shadow(0 0 20px rgba(0, 255, 210, 0.6)) drop-shadow(0 0 35px rgba(255, 68, 153, 0.4)) drop-shadow(0 0 50px rgba(0, 70, 135, 0.3))`
+            : 'drop-shadow(0 0 0px transparent)'
+        }}
+        onMouseMove={handleMouseMove}
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
+      >
+        {/* Dynamic gradient glow that follows mouse - positioned around the icon */}
+        <div 
+          className="absolute -inset-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+          style={{
+            background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, 
+              rgba(0, 255, 210, 0.4) 0%, 
+              rgba(255, 68, 153, 0.3) 30%, 
+              rgba(0, 70, 135, 0.2) 60%, 
+              transparent 100%)`,
+            filter: 'blur(20px)',
+          }}
+        />
+        <div className="relative z-10 transition-transform group-hover:scale-110 group-hover:-translate-y-1">
+          {link.icon}
+        </div>
+      </div>
+      <span className="sr-only">{link.name}</span>
+    </a>
   );
 }

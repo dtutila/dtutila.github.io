@@ -2,8 +2,22 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SocialLinks } from "@/components/SocialLinks";
 import logo from "@/assets/logo.png";
+import { useState, useRef } from "react";
 
 const Index = () => {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+  const logoRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (logoRef.current) {
+      const rect = logoRef.current.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      setMousePosition({ x, y });
+    }
+  };
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-background to-background transition-colors" style={{ background: 'var(--gradient-background)' }}>
       <Header />
@@ -11,11 +25,35 @@ const Index = () => {
       <div className="container mx-auto flex min-h-screen items-center justify-center px-6 py-20">
         <div className="max-w-3xl text-center animate-in fade-in duration-1000">
           <div className="mb-8 flex justify-center">
-            <div className="relative w-40 h-40 rounded-full overflow-hidden border-4 border-accent shadow-lg shadow-accent/20" style={{ background: 'var(--gradient-primary)' }}>
+            <div 
+              ref={logoRef}
+              className="relative w-40 h-40 rounded-full overflow-hidden border-4 border-primary transition-all duration-300"
+              style={{ 
+                background: 'var(--gradient-primary)',
+                boxShadow: isHovering 
+                  ? `0 0 60px rgba(0, 255, 210, 0.6), 0 0 100px rgba(255, 68, 153, 0.4), 0 0 140px rgba(0, 70, 135, 0.3)`
+                  : '0 0 30px rgba(0, 255, 210, 0.3), 0 0 50px rgba(255, 68, 153, 0.2)'
+              }}
+              onMouseMove={handleMouseMove}
+              onMouseEnter={() => setIsHovering(true)}
+              onMouseLeave={() => setIsHovering(false)}
+            >
+              {/* Dynamic gradient glow that follows mouse */}
+              <div 
+                className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                style={{
+                  background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, 
+                    rgba(0, 255, 210, 0.4) 0%, 
+                    rgba(255, 68, 153, 0.3) 30%, 
+                    rgba(0, 70, 135, 0.2) 60%, 
+                    transparent 100%)`,
+                  filter: 'blur(20px)',
+                }}
+              />
               <img 
                 src={logo} 
                 alt="Logo" 
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover relative z-10"
               />
             </div>
           </div>

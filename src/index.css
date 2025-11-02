@@ -47,38 +47,38 @@ All colors MUST be HSL.
   }
 
   .dark {
-    /* Nord color scheme */
-    --background: 220 16% 22%;
-    --foreground: 219 28% 88%;
+    /* Tokyo Night color scheme */
+    --background: 225 27% 12%; /* #1a1b26 */
+    --foreground: 230 16% 77%; /* #c0caf5 */
 
-    --card: 222 16% 28%;
-    --card-foreground: 219 28% 88%;
+    --card: 230 20% 16%; /* #24283b */
+    --card-foreground: 230 16% 77%; /* #c0caf5 */
 
-    --popover: 222 16% 28%;
-    --popover-foreground: 219 28% 88%;
+    --popover: 230 20% 16%; /* #24283b */
+    --popover-foreground: 230 16% 77%; /* #c0caf5 */
 
-    --primary: 193 43% 67%;
-    --primary-foreground: 220 16% 22%;
+    --primary: 217 92% 76%; /* #7aa2f7 */
+    --primary-foreground: 225 27% 12%; /* #1a1b26 */
 
-    --secondary: 220 17% 32%;
-    --secondary-foreground: 219 28% 88%;
+    --secondary: 230 20% 21%; /* #414868 */
+    --secondary-foreground: 230 16% 77%; /* #c0caf5 */
 
-    --muted: 220 16% 36%;
-    --muted-foreground: 218 27% 92%;
+    --muted: 230 20% 21%; /* #414868 */
+    --muted-foreground: 230 14% 62%; /* #9aa5ce */
 
-    --accent: 210 34% 63%;
-    --accent-foreground: 218 27% 94%;
+    --accent: 267 84% 81%; /* #bb9af7 */
+    --accent-foreground: 225 27% 12%; /* #1a1b26 */
 
-    --destructive: 354 42% 56%;
-    --destructive-foreground: 218 27% 94%;
+    --destructive: 354 70% 71%; /* #f7768e */
+    --destructive-foreground: 230 16% 77%; /* #c0caf5 */
 
-    --border: 220 16% 36%;
-    --input: 220 16% 36%;
-    --ring: 193 43% 67%;
+    --border: 230 20% 21%; /* #414868 */
+    --input: 230 20% 21%; /* #414868 */
+    --ring: 217 92% 76%; /* #7aa2f7 */
     
-    /* Nord gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(193 43% 67%) 0%, hsl(210 34% 63%) 100%);
-    --gradient-background: linear-gradient(180deg, hsl(220 16% 22%) 0%, hsl(220 16% 18%) 100%);
+    /* Tokyo Night gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(217 92% 76%) 0%, hsl(267 84% 81%) 100%);
+    --gradient-background: linear-gradient(180deg, hsl(225 27% 12%) 0%, hsl(230 20% 16%) 100%);
   }
 }
 
