@@ -101,7 +101,7 @@ function SocialIcon({ link }: { link: SocialLink }) {
       href={link.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative text-muted-foreground transition-colors hover:text-accent"
+      className="group relative text-muted-foreground transition-colors hover:text-primary"
       aria-label={link.name}
     >
       <div 

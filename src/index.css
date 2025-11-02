@@ -85,10 +85,10 @@ All colors MUST be HSL.
     --gradient-primary: linear-gradient(135deg, hsl(217 92% 76%) 0%, hsl(267 84% 81%) 100%);
     --gradient-background: linear-gradient(180deg, hsl(225 27% 12%) 0%, hsl(230 20% 16%) 100%);
     
-    /* Tokyo Night glow colors */
-    --glow-primary: 180, 100%, 50%; /* #00ffd2 cyan */
-    --glow-secondary: 338, 100%, 64%; /* #ff4499 pink */
-    --glow-tertiary: 200, 100%, 26%; /* #004687 blue */
+    /* Tokyo Night glow colors - blue only */
+    --glow-primary: 217, 92%, 76%; /* #7aa2f7 bright blue */
+    --glow-secondary: 199, 89%, 69%; /* #7dcfff light blue */
+    --glow-tertiary: 217, 92%, 76%; /* #7aa2f7 bright blue */
   }
 }
 
