@@ -25,12 +25,18 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 const getStoredTheme = (defaultTheme: Theme): Theme => {
   try {
     const stored = localStorage.getItem("theme");
-    return (stored as Theme) || defaultTheme;
+    if (stored === "dark" || stored === "light") {
+      return stored;
+    }
   } catch (error) {
     // localStorage might be unavailable in private mode or SSR
     console.warn("localStorage is not available:", error);
-    return defaultTheme;
   }
+  // First visit: follow the OS preference, falling back to the default
+  if (window.matchMedia?.("(prefers-color-scheme: light)").matches) {
+    return "light";
+  }
+  return defaultTheme;
 };
 
 const setStoredTheme = (theme: Theme): void => {
