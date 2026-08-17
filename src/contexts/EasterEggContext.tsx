@@ -5,6 +5,8 @@ interface EasterEggContextType {
   triggerDrop: () => void;
   isSnowActive: boolean;
   setIsSnowActive: (active: boolean) => void;
+  isHalloweenActive: boolean;
+  setIsHalloweenActive: (active: boolean) => void;
 }
 
 const EasterEggContext = createContext<EasterEggContextType | undefined>(undefined);
@@ -15,6 +17,23 @@ const isChristmasSeason = () => {
   return month === 10 || month === 11; // November (10) or December (11)
 };
 
+// Check if it's Halloween season: October 1 - November 2
+const isHalloweenSeason = () => {
+  const now = new Date();
+  const month = now.getMonth();
+  return month === 9 || (month === 10 && now.getDate() <= 2); // October (9), or November 1-2
+};
+
+// Testing override: append ?halloween to the URL to force Halloween season
+const isHalloweenForced = () => {
+  return new URLSearchParams(window.location.search).has("halloween");
+};
+
+// Halloween mode is available during the season, or when forced for testing
+export const isHalloweenSeasonActive = () => {
+  return isHalloweenSeason() || isHalloweenForced();
+};
+
 // Check if dark mode is active
 const isDarkMode = () => {
   return document.documentElement.classList.contains('dark');
@@ -23,15 +42,13 @@ const isDarkMode = () => {
 export const EasterEggProvider = ({ children }: { children: ReactNode }) => {
   const [isDropped, setIsDropped] = useState(false);
   const [isSnowActive, setIsSnowActive] = useState(false);
+  const [isHalloweenActive, setIsHalloweenActive] = useState(false);
 
-  // Auto-activate snow effect during Christmas season in dark mode
+  // Auto-activate seasonal effects in dark mode (Christmas: Nov/Dec, Halloween: Oct 1 - Nov 2)
   useEffect(() => {
     const checkAndActivate = () => {
-      if (isChristmasSeason() && isDarkMode()) {
-        setIsSnowActive(true);
-      } else {
-        setIsSnowActive(false);
-      }
+      setIsSnowActive(isChristmasSeason() && isDarkMode());
+      setIsHalloweenActive(isHalloweenSeasonActive() && isDarkMode());
     };
 
     // Check on mount
@@ -52,7 +69,7 @@ export const EasterEggProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <EasterEggContext.Provider value={{ isDropped, triggerDrop, isSnowActive, setIsSnowActive }}>
+    <EasterEggContext.Provider value={{ isDropped, triggerDrop, isSnowActive, setIsSnowActive, isHalloweenActive, setIsHalloweenActive }}>
       {children}
     </EasterEggContext.Provider>
   );

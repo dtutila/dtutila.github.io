@@ -6,6 +6,7 @@ import { useState, useRef } from "react";
 import { EasterEggProvider, useEasterEgg } from "@/contexts/EasterEggContext";
 import { SnowEffect } from "@/components/SnowEffect";
 import { SantaHatOverlay } from "@/components/SantaHatOverlay";
+import { PumpkinOverlay } from "@/components/PumpkinOverlay";
 import { SnowballShakeEffect } from "@/components/SnowballShakeEffect";
 import { ShakePermissionButton } from "@/components/ShakePermissionButton";
 import { useDeviceShake } from "@/hooks/useDeviceShake";
@@ -14,7 +15,7 @@ const IndexContent = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const logoRef = useRef<HTMLDivElement>(null);
-  const { isSnowActive } = useEasterEgg();
+  const { isSnowActive, isHalloweenActive } = useEasterEgg();
   const { isShaking, requestPermission, permissionGranted, tilt } = useDeviceShake();
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -39,6 +40,7 @@ const IndexContent = () => {
           <div className="mb-8 flex justify-center">
             <div className="relative">
               <SantaHatOverlay isActive={isSnowActive} />
+              <PumpkinOverlay isActive={isHalloweenActive} />
               <div 
                 ref={logoRef}
                 className="relative w-40 h-40 rounded-full overflow-hidden border-4 border-primary transition-all duration-300"

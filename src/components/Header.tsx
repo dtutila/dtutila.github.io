@@ -3,9 +3,10 @@ import { useEasterEgg } from "@/contexts/EasterEggContext";
 import { useState, useEffect } from "react";
 import { ChristmasHat } from "./ChristmasHat";
 import { ChristmasLights } from "./ChristmasLights";
+import { HalloweenPumpkin } from "./HalloweenPumpkin";
 
 export const Header = () => {
-  const { isDropped, triggerDrop, isSnowActive, setIsSnowActive } = useEasterEgg();
+  const { isDropped, triggerDrop, isSnowActive, setIsSnowActive, isHalloweenActive, setIsHalloweenActive } = useEasterEgg();
   const [isAnimating, setIsAnimating] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -53,9 +54,13 @@ export const Header = () => {
           )}
         </div>
         <div className="flex items-center gap-3">
-          <ChristmasHat 
-            isActive={isSnowActive} 
-            onToggle={() => setIsSnowActive(!isSnowActive)} 
+          <ChristmasHat
+            isActive={isSnowActive}
+            onToggle={() => setIsSnowActive(!isSnowActive)}
+          />
+          <HalloweenPumpkin
+            isActive={isHalloweenActive}
+            onToggle={() => setIsHalloweenActive(!isHalloweenActive)}
           />
           <ThemeToggle />
         </div>

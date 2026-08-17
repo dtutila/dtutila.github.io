@@ -1,0 +1,340 @@
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 1000 1000"
+    width="1000"
+    height="1000">
+
+  <defs>
+    <!-- Pumpkin gradient -->
+    <linearGradient id="pumpkinGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ff8a00"/>
+      <stop offset="50%" stop-color="#ff6500"/>
+      <stop offset="100%" stop-color="#ef4300"/>
+    </linearGradient>
+
+    <!-- Pumpkin side shading -->
+    <linearGradient id="sideGradient" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#e94400"/>
+      <stop offset="50%" stop-color="#ff7200"/>
+      <stop offset="100%" stop-color="#ef4800"/>
+    </linearGradient>
+
+    <!-- Green stem -->
+    <linearGradient id="stemGradient" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#157b0b"/>
+      <stop offset="55%" stop-color="#36ad18"/>
+      <stop offset="100%" stop-color="#73d83b"/>
+    </linearGradient>
+
+    <!-- Glow -->
+    <linearGradient id="glowGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff32a"/>
+      <stop offset="60%" stop-color="#ffc400"/>
+      <stop offset="100%" stop-color="#ff9800"/>
+    </linearGradient>
+  </defs>
+
+  <!-- =============================== -->
+  <!-- STEM -->
+  <!-- =============================== -->
+
+  <path
+      d="
+        M420 265
+        C455 225 478 170 500 112
+        C525 45 580 23 624 43
+        C658 59 670 88 660 111
+        C653 128 634 130 617 132
+        C579 135 561 160 565 200
+        C568 228 583 252 604 274
+        L552 301
+        C525 268 518 236 523 201
+        C507 238 492 270 474 296
+        Z"
+      fill="url(#stemGradient)"
+      stroke="#111"
+      stroke-width="11"
+      stroke-linejoin="round"/>
+
+  <!-- stem detail -->
+  <path
+      d="M493 255 C520 215 535 157 557 106"
+      fill="none"
+      stroke="#176f0c"
+      stroke-width="13"
+      stroke-linecap="round"/>
+
+  <path
+      d="M526 237 C550 199 555 161 563 128"
+      fill="none"
+      stroke="#64cf39"
+      stroke-width="9"
+      stroke-linecap="round"/>
+
+  <!-- =============================== -->
+  <!-- PUMPKIN BODY -->
+  <!-- =============================== -->
+
+  <!-- left outer lobe -->
+  <path
+      d="
+        M365 275
+        C267 236 161 280 104 366
+        C48 452 37 588 69 712
+        C97 822 154 895 234 912
+        C286 923 328 900 350 864
+        C315 760 303 418 365 275
+        Z"
+      fill="url(#sideGradient)"
+      stroke="#111"
+      stroke-width="12"
+      stroke-linejoin="round"/>
+
+  <!-- right outer lobe -->
+  <path
+      d="
+        M635 275
+        C733 236 839 280 896 366
+        C952 452 963 588 931 712
+        C903 822 846 895 766 912
+        C714 923 672 900 650 864
+        C685 760 697 418 635 275
+        Z"
+      fill="url(#sideGradient)"
+      stroke="#111"
+      stroke-width="12"
+      stroke-linejoin="round"/>
+
+  <!-- left middle lobe -->
+  <path
+      d="
+        M405 271
+        C336 245 278 291 246 377
+        C212 469 208 649 239 766
+        C266 866 316 917 379 915
+        C424 914 456 882 467 833
+        C436 695 438 402 405 271
+        Z"
+      fill="url(#pumpkinGradient)"
+      stroke="#111"
+      stroke-width="10"/>
+
+  <!-- right middle lobe -->
+  <path
+      d="
+        M595 271
+        C664 245 722 291 754 377
+        C788 469 792 649 761 766
+        C734 866 684 917 621 915
+        C576 914 544 882 533 833
+        C564 695 562 402 595 271
+        Z"
+      fill="url(#pumpkinGradient)"
+      stroke="#111"
+      stroke-width="10"/>
+
+  <!-- center lobe -->
+  <path
+      d="
+        M500 267
+        C438 265 402 337 392 447
+        C382 561 393 724 420 827
+        C440 902 468 940 500 940
+        C532 940 560 902 580 827
+        C607 724 618 561 608 447
+        C598 337 562 265 500 267
+        Z"
+      fill="url(#pumpkinGradient)"
+      stroke="#111"
+      stroke-width="11"/>
+
+  <!-- =============================== -->
+  <!-- PUMPKIN HIGHLIGHTS -->
+  <!-- =============================== -->
+
+  <path
+      d="M156 377 C189 327 220 307 246 305"
+      fill="none"
+      stroke="#ffb04f"
+      stroke-width="17"
+      stroke-linecap="round"
+      opacity="0.9"/>
+
+  <path
+      d="M293 390 C321 338 350 316 372 311"
+      fill="none"
+      stroke="#ffb14b"
+      stroke-width="15"
+      stroke-linecap="round"
+      opacity="0.9"/>
+
+  <path
+      d="M447 397 C457 351 470 328 482 318"
+      fill="none"
+      stroke="#ffb64e"
+      stroke-width="14"
+      stroke-linecap="round"
+      opacity="0.85"/>
+
+  <path
+      d="M710 390 C682 338 652 316 630 311"
+      fill="none"
+      stroke="#ffb14b"
+      stroke-width="15"
+      stroke-linecap="round"
+      opacity="0.9"/>
+
+  <path
+      d="M843 377 C810 327 780 307 754 305"
+      fill="none"
+      stroke="#ffb04f"
+      stroke-width="17"
+      stroke-linecap="round"
+      opacity="0.9"/>
+
+  <!-- =============================== -->
+  <!-- EYES -->
+  <!-- =============================== -->
+
+  <!-- left eye glow -->
+  <path
+      d="M222 528 L353 347 L438 548 Z"
+      fill="url(#glowGradient)"
+      stroke="#111"
+      stroke-width="13"
+      stroke-linejoin="round"/>
+
+  <!-- left eye black inner -->
+  <path
+      d="M294 508 L354 400 L412 530 Z"
+      fill="#080808"/>
+
+  <!-- right eye glow -->
+  <path
+      d="M562 548 L647 347 L778 528 Z"
+      fill="url(#glowGradient)"
+      stroke="#111"
+      stroke-width="13"
+      stroke-linejoin="round"/>
+
+  <!-- right eye black inner -->
+  <path
+      d="M588 530 L646 400 L706 508 Z"
+      fill="#080808"/>
+
+  <!-- =============================== -->
+  <!-- NOSE -->
+  <!-- =============================== -->
+
+  <path
+      d="M500 511 L581 650 L419 650 Z"
+      fill="url(#glowGradient)"
+      stroke="#111"
+      stroke-width="12"
+      stroke-linejoin="round"/>
+
+  <path
+      d="M500 548 L545 623 L455 623 Z"
+      fill="#080808"/>
+
+  <!-- =============================== -->
+  <!-- MOUTH -->
+  <!-- =============================== -->
+
+  <!-- glowing mouth base -->
+  <path
+      d="
+        M173 580
+        C206 624 240 651 284 667
+        L307 697
+        L346 665
+        L381 678
+        L397 734
+        L459 745
+        L474 705
+        L526 705
+        L541 745
+        L603 734
+        L619 678
+        L654 665
+        L693 697
+        L716 667
+        C760 651 794 624 827 580
+        C818 646 794 718 748 774
+        L727 755
+        L703 795
+        C671 828 635 842 593 848
+        L571 803
+        L531 812
+        L520 858
+        C507 861 493 861 480 858
+        L469 812
+        L429 803
+        L407 848
+        C365 842 329 828 297 795
+        L273 755
+        L252 774
+        C206 718 182 646 173 580
+        Z"
+      fill="url(#glowGradient)"
+      stroke="#111"
+      stroke-width="13"
+      stroke-linejoin="round"/>
+
+  <!-- black mouth interior -->
+  <path
+      d="
+        M207 612
+        C236 638 268 654 302 667
+        L309 699
+        L352 669
+        L381 679
+        L389 726
+        L455 735
+        L469 690
+        L531 690
+        L545 735
+        L611 726
+        L619 679
+        L648 669
+        L691 699
+        L698 667
+        C732 654 764 638 793 612
+        C773 668 748 709 710 745
+        L685 721
+        L655 767
+        C631 786 600 795 567 800
+        L549 758
+        L514 764
+        L500 804
+        L486 764
+        L451 758
+        L433 800
+        C400 795 369 786 345 767
+        L315 721
+        L290 745
+        C252 709 227 668 207 612
+        Z"
+      fill="#080808"/>
+
+  <!-- =============================== -->
+  <!-- SMALL BODY DETAILS -->
+  <!-- =============================== -->
+
+  <path
+      d="M119 650 C112 718 124 781 151 826"
+      fill="none"
+      stroke="#d93e00"
+      stroke-width="12"
+      stroke-linecap="round"
+      opacity="0.7"/>
+
+  <path
+      d="M881 650 C888 718 876 781 849 826"
+      fill="none"
+      stroke="#d93e00"
+      stroke-width="12"
+      stroke-linecap="round"
+      opacity="0.7"/>
+
+</svg>
