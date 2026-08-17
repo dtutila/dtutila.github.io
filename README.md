@@ -47,7 +47,7 @@ Live at [dtutila.com](https://dtutila.com).
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 20+
 - npm or pnpm
 
 ### Installation

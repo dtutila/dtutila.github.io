@@ -29,12 +29,19 @@ these lives in `src/contexts/EasterEggContext.tsx`, which wraps the Index page.
 - **Trigger:** Visit between **October 1 and November 2** with **dark mode**
   active. Append `?halloween` to the URL to force it for testing.
 - **Effect:** A jack-o'-lantern pumpkin appears perched on the logo (with an
-  orange glow), and a pumpkin toggle button shows up in the header to switch
-  the mode manually. Auto-activates the same way as Christmas mode — a
-  `MutationObserver` watches the `<html>` class for live theme flips.
+  orange glow), bats with flapping wings fly randomly across the background
+  (they flee from the mouse cursor or your finger on touch devices, including
+  one yellow Batman-logo bat), random white lightning bolts strike in the
+  background every few seconds with a strobing bolt and sky flash — each
+  strike also reveals a black castle-and-mountains silhouette at the bottom
+  of the screen for as long as the sky stays lit — and a
+  pumpkin toggle button shows up in the header to switch the mode manually.
+  Auto-activates the same way as Christmas mode — a `MutationObserver` watches
+  the `<html>` class for live theme flips.
 - **Files:** `src/contexts/EasterEggContext.tsx`,
   `src/components/PumpkinOverlay.tsx`, `src/components/HalloweenPumpkin.tsx`,
-  `src/assets/pumpkin.svg`
+  `src/components/BatsEffect.tsx`, `src/components/LightningEffect.tsx`,
+  `src/assets/pumpkin.svg`, `src/assets/castle.svg`
 
 ## 4. Santa hat toggle
 
