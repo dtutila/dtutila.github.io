@@ -27,15 +27,12 @@ export const ChristmasHat = ({ isActive, onToggle }: ChristmasHatProps) => {
     // Check if it's November or December
     const currentMonth = new Date().getMonth(); // 0-indexed: 10 = November, 11 = December
     const isChristmas = currentMonth === 10 || currentMonth === 11;
-    console.log('Christmas Hat - Current month:', currentMonth, 'Is Christmas season:', isChristmas);
     setIsChristmasSeason(isChristmas);
-    
+
     return () => observer.disconnect();
   }, []);
 
   // Only show in dark mode during November/December
-  console.log('Christmas Hat - Dark mode:', isDarkMode, 'Christmas season:', isChristmasSeason, 'Should show:', isDarkMode && isChristmasSeason);
-  
   if (!isDarkMode || !isChristmasSeason) {
     return null;
   }

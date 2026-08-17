@@ -2,19 +2,34 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SocialLinks } from "@/components/SocialLinks";
 import logo from "@/assets/logo.png";
-import { useState, useRef } from "react";
+import { useState, useRef, lazy, Suspense } from "react";
 import { EasterEggProvider, useEasterEgg } from "@/contexts/EasterEggContext";
-import { SnowEffect } from "@/components/SnowEffect";
-import { SantaHatOverlay } from "@/components/SantaHatOverlay";
 import { SnowballShakeEffect } from "@/components/SnowballShakeEffect";
 import { ShakePermissionButton } from "@/components/ShakePermissionButton";
 import { useDeviceShake } from "@/hooks/useDeviceShake";
+
+// Seasonal effects are code-split and fetched only when their season activates
+const SnowEffect = lazy(() =>
+  import("@/components/SnowEffect").then((m) => ({ default: m.SnowEffect }))
+);
+const SantaHatOverlay = lazy(() =>
+  import("@/components/SantaHatOverlay").then((m) => ({ default: m.SantaHatOverlay }))
+);
+const PumpkinOverlay = lazy(() =>
+  import("@/components/PumpkinOverlay").then((m) => ({ default: m.PumpkinOverlay }))
+);
+const BatsEffect = lazy(() =>
+  import("@/components/BatsEffect").then((m) => ({ default: m.BatsEffect }))
+);
+const LightningEffect = lazy(() =>
+  import("@/components/LightningEffect").then((m) => ({ default: m.LightningEffect }))
+);
 
 const IndexContent = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const logoRef = useRef<HTMLDivElement>(null);
-  const { isSnowActive } = useEasterEgg();
+  const { isSnowActive, isHalloweenActive } = useEasterEgg();
   const { isShaking, requestPermission, permissionGranted, tilt } = useDeviceShake();
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -28,17 +43,24 @@ const IndexContent = () => {
 
   return (
     <>
-      {isSnowActive && <SnowEffect tilt={tilt} />}
+      <Suspense fallback={null}>
+        {isSnowActive && <SnowEffect tilt={tilt} />}
+        {isHalloweenActive && <BatsEffect />}
+        {isHalloweenActive && <LightningEffect />}
+      </Suspense>
       <SnowballShakeEffect isShaking={isShaking} tilt={tilt} />
       <ShakePermissionButton requestPermission={requestPermission} permissionGranted={permissionGranted} />
       <main className="min-h-screen bg-gradient-to-b from-background to-background transition-colors" style={{ background: 'var(--gradient-background)' }}>
         <Header />
 
-      <div className="container mx-auto flex min-h-screen items-center justify-center px-6 py-20">
+      <div className="container relative z-10 mx-auto flex min-h-screen items-center justify-center px-6 py-20">
         <div className="max-w-3xl text-center animate-in fade-in duration-1000">
           <div className="mb-8 flex justify-center">
             <div className="relative">
-              <SantaHatOverlay isActive={isSnowActive} />
+              <Suspense fallback={null}>
+                <SantaHatOverlay isActive={isSnowActive} />
+                <PumpkinOverlay isActive={isHalloweenActive} />
+              </Suspense>
               <div 
                 ref={logoRef}
                 className="relative w-40 h-40 rounded-full overflow-hidden border-4 border-primary transition-all duration-300"

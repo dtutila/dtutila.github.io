@@ -263,3 +263,118 @@ All colors MUST be HSL.
     opacity: 0;
   }
 }
+
+/* Respect user preference for reduced motion: neutralize animations and
+   hide effect flakes entirely rather than leaving them frozen mid-screen */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .animate-shake-snow-smooth,
+  .animate-snowfall-accumulate {
+    display: none;
+  }
+}
+
+/* Halloween bats - flapping wings (speed driven by --flap-duration) */
+.bat-wing {
+  transform-box: fill-box;
+  animation: bat-flap var(--flap-duration, 0.45s) ease-in-out infinite;
+}
+
+.bat-wing-left {
+  transform-origin: 100% 50%;
+}
+
+.bat-wing-right {
+  transform-origin: 0% 50%;
+}
+
+@keyframes bat-flap {
+  0%, 100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.35);
+  }
+}
+
+/* Halloween lightning - bolt strobes and dies like a real strike */
+@keyframes lightning-bolt {
+  0% {
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  10% {
+    opacity: 0.15;
+  }
+  16% {
+    opacity: 1;
+  }
+  26% {
+    opacity: 0.1;
+  }
+  38% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.animate-lightning-bolt {
+  animation: lightning-bolt 0.75s linear forwards;
+}
+
+/* Sky flash - quick bloom, secondary flicker, fast decay */
+@keyframes lightning-sky {
+  0% {
+    opacity: 0;
+  }
+  6% {
+    opacity: 1;
+  }
+  14% {
+    opacity: 0.25;
+  }
+  22% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.animate-lightning-sky {
+  animation: lightning-sky 0.75s ease-out forwards;
+}
+
+/* Castle silhouette revealed only while the lightning flash is lit */
+@keyframes castle-reveal {
+  0% {
+    opacity: 0;
+  }
+  6% {
+    opacity: 0.95;
+  }
+  14% {
+    opacity: 0.3;
+  }
+  22% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.animate-castle-reveal {
+  animation: castle-reveal 0.75s linear forwards;
+}

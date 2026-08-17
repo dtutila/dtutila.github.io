@@ -49,7 +49,7 @@ The Christmas lights now automatically adjust their quantity based on the device
   - 1500px → 28 lights
 
 ### 🖥️ Large Desktop (≥ 1536px)
-- **Light count**: 30-35 lights
+- **Light count**: 30+ lights (no upper cap — count keeps growing with width)
 - **Formula**: `Math.max(30, Math.floor(width / 50))`
 - **Example**:
   - 1536px → 30 lights
