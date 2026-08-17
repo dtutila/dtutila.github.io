@@ -123,11 +123,14 @@ export const LightningEffect = () => {
       className="fixed inset-0 pointer-events-none z-[1] overflow-hidden"
       aria-hidden="true"
     >
+      {/* Preload: keep the castle decoded in the browser cache so mounting
+          it on the first strike doesn't block the main thread (mobile) */}
+      <img src={castle} alt="" className="absolute w-px h-px opacity-0" />
       {bolt && (
         <div key={bolt.id}>
           {/* Sky flash - the whole sky lights up and dies out */}
           <div
-            className="absolute inset-0 animate-lightning-sky"
+            className="absolute inset-0 animate-lightning-sky will-change-[opacity]"
             style={{
               background:
                 "linear-gradient(180deg, rgba(230, 240, 255, 0.22) 0%, rgba(230, 240, 255, 0.06) 60%, transparent 100%)",
@@ -138,31 +141,25 @@ export const LightningEffect = () => {
           <img
             src={castle}
             alt=""
-            className="absolute bottom-0 left-0 w-full h-[70vh] object-contain object-bottom animate-castle-reveal"
+            className="absolute bottom-0 left-0 w-full h-[70vh] object-contain object-bottom animate-castle-reveal will-change-[opacity]"
           />
           {/* The bolt, strobing like a real strike. Layered strokes:
-              wide soft glow -> mid corona -> thin white-hot core */}
-          <svg className="absolute inset-0 w-full h-full animate-lightning-bolt">
-            <g
-              style={{
-                filter:
-                  "drop-shadow(0 0 8px rgba(190, 215, 255, 0.8)) drop-shadow(0 0 22px rgba(140, 180, 255, 0.5))",
-              }}
-              fill="none"
-              strokeLinejoin="round"
-              strokeLinecap="round"
-            >
+              wide soft glow -> mid corona -> thin white-hot core.
+              No drop-shadow filter: re-rasterizing a full-screen filter
+              every opacity frame freezes other animations on mobile */}
+          <svg className="absolute inset-0 w-full h-full animate-lightning-bolt will-change-[opacity]">
+            <g fill="none" strokeLinejoin="round" strokeLinecap="round">
               <path
                 d={bolt.main}
-                stroke="rgba(170, 205, 255, 0.35)"
-                strokeWidth={8}
+                stroke="rgba(170, 205, 255, 0.45)"
+                strokeWidth={11}
               />
               {bolt.branches.map((branch, i) => (
                 <path
                   key={`glow-${i}`}
                   d={branch}
-                  stroke="rgba(170, 205, 255, 0.3)"
-                  strokeWidth={4}
+                  stroke="rgba(170, 205, 255, 0.4)"
+                  strokeWidth={6}
                 />
               ))}
               <path
