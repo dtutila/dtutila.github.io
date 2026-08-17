@@ -39,21 +39,23 @@ The snowball shake effect detects device motion and creates a visual snow burst 
 - Prevents rapid re-triggers with 1-second cooldown
 
 ### 3. Visual Effect
-- 30 snowflakes burst across screen
-- Random positions, sizes, and delays
-- Chaotic movement with rotation and scaling
-- 1.5-second animation duration
-- Automatic cleanup after 2 seconds
+- 60 snowflakes burst across the screen from a center-biased radial distribution
+- Random positions, sizes, velocities, and tilt-driven offsets
+- 6-stage physics animation (burst → peak → gravity fall → air resistance → settle → fade) with rotation and scaling
+- 2.8-second animation duration
+- Automatic cleanup after 3 seconds
+- See `SNOWBALL_PHYSICS.md` for the full physics breakdown
 
 ## Technical Implementation
 
 ### Hook: `useDeviceShake`
 ```typescript
-const { isShaking, requestPermission, permissionGranted } = useDeviceShake();
+const { isShaking, tilt, requestPermission, permissionGranted } = useDeviceShake();
 ```
 
 **Returns:**
 - `isShaking`: boolean - true when shake detected
+- `tilt`: `{ x, y }` - device tilt normalized to ±1 (used to steer falling snow)
 - `requestPermission`: function - manually request iOS permission
 - `permissionGranted`: boolean - permission status
 
