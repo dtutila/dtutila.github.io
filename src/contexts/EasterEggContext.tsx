@@ -24,14 +24,9 @@ const isHalloweenSeason = () => {
   return month === 9 || (month === 10 && now.getDate() <= 2); // October (9), or November 1-2
 };
 
-// Testing override: append ?halloween to the URL to force Halloween season
-const isHalloweenForced = () => {
-  return new URLSearchParams(window.location.search).has("halloween");
-};
-
-// Halloween mode is available during the season, or when forced for testing
+// Halloween mode is available during the season only
 export const isHalloweenSeasonActive = () => {
-  return isHalloweenSeason() || isHalloweenForced();
+  return isHalloweenSeason();
 };
 
 // Check if dark mode is active

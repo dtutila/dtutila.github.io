@@ -27,7 +27,7 @@ these lives in `src/contexts/EasterEggContext.tsx`, which wraps the Index page.
 ## 3. Halloween season auto-mode
 
 - **Trigger:** Visit between **October 1 and November 2** with **dark mode**
-  active. Append `?halloween` to the URL to force it for testing.
+  active.
 - **Effect:** A jack-o'-lantern pumpkin appears perched on the logo (with an
   orange glow), bats with flapping wings fly randomly across the background
   (they flee from the mouse cursor or your finger on touch devices, including
