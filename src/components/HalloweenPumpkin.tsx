@@ -25,7 +25,7 @@ export const HalloweenPumpkin = ({ isActive, onToggle }: HalloweenPumpkinProps) 
       attributeFilter: ['class'],
     });
 
-    // Check Halloween season (October 1 - November 2, or ?halloween test override)
+    // Check Halloween season (October 1 - November 2)
     setIsHalloweenSeason(isHalloweenSeasonActive());
 
     return () => observer.disconnect();
