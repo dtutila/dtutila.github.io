@@ -1,37 +1,45 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from "react";
 
-export const useDeviceShake = (threshold = 15) => {
+type DeviceMotionConstructorWithPermission = typeof DeviceMotionEvent & {
+  requestPermission?: () => Promise<"granted" | "denied">;
+};
+
+const getMotionConstructor = () =>
+  window.DeviceMotionEvent as DeviceMotionConstructorWithPermission | undefined;
+
+export const useDeviceShake = (enabled: boolean, threshold = 15) => {
+  const motionConstructor = getMotionConstructor();
+  const requiresPermission = typeof motionConstructor?.requestPermission === "function";
   const [isShaking, setIsShaking] = useState(false);
-  const [lastShakeTime, setLastShakeTime] = useState(0);
-  const [permissionGranted, setPermissionGranted] = useState(false);
+  const [permissionGranted, setPermissionGranted] = useState(!requiresPermission);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const lastShakeTime = useRef(0);
+  const resetTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   // Request permission function for iOS
   const requestPermission = useCallback(async () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if (typeof (DeviceMotionEvent as any).requestPermission === 'function') {
+    const constructor = getMotionConstructor();
+
+    if (typeof constructor?.requestPermission === "function") {
       try {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const permissionState = await (DeviceMotionEvent as any).requestPermission();
-        if (permissionState === 'granted') {
-          setPermissionGranted(true);
-          return true;
-        }
-        return false;
+        const granted = await constructor.requestPermission() === "granted";
+        setPermissionGranted(granted);
+        return granted;
       } catch (error) {
-        console.warn('DeviceMotion permission denied:', error);
+        console.warn("Device motion permission was not granted:", error);
         return false;
       }
     }
-    // Non-iOS or older iOS - permission not needed
-    setPermissionGranted(true);
-    return true;
+
+    const supported = Boolean(constructor);
+    setPermissionGranted(supported);
+    return supported;
   }, []);
 
+  useEffect(() => () => clearTimeout(resetTimer.current), []);
+
   useEffect(() => {
-    // Check if device motion is supported
-    if (!window.DeviceMotionEvent) {
-      console.warn('DeviceMotion not supported on this device');
+    if (!enabled || !motionConstructor || (requiresPermission && !permissionGranted)) {
       return;
     }
 
@@ -39,8 +47,6 @@ export const useDeviceShake = (threshold = 15) => {
     let lastY = 0;
     let lastZ = 0;
     let lastUpdate = 0;
-    let isListening = false;
-
     const handleMotion = (event: DeviceMotionEvent) => {
       // Try both accelerationIncludingGravity and acceleration for compatibility
       const acceleration = event.accelerationIncludingGravity || event.acceleration;
@@ -80,12 +86,12 @@ export const useDeviceShake = (threshold = 15) => {
       if (isShakeDetected) {
         const now = Date.now();
         // Prevent rapid repeated shakes
-        if (now - lastShakeTime > 1000) {
+        if (now - lastShakeTime.current > 1000) {
           setIsShaking(true);
-          setLastShakeTime(now);
+          lastShakeTime.current = now;
           
-          // Reset shake state after animation
-          setTimeout(() => setIsShaking(false), 2000);
+          clearTimeout(resetTimer.current);
+          resetTimer.current = setTimeout(() => setIsShaking(false), 2000);
         }
       }
 
@@ -94,32 +100,13 @@ export const useDeviceShake = (threshold = 15) => {
       lastZ = z;
     };
 
-    const startListening = async () => {
-      if (isListening) return;
-
-      // Request permission if needed (iOS 13+)
-      const hasPermission = await requestPermission();
-      
-      if (hasPermission) {
-        window.addEventListener('devicemotion', handleMotion, { passive: true });
-        isListening = true;
-      }
-    };
-
-    // Auto-start for Android and older iOS
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if (typeof (DeviceMotionEvent as any).requestPermission !== 'function') {
-      startListening();
-    }
+    window.addEventListener("devicemotion", handleMotion, { passive: true });
 
     // Cleanup
     return () => {
-      if (isListening) {
-        window.removeEventListener('devicemotion', handleMotion);
-        isListening = false;
-      }
+      window.removeEventListener("devicemotion", handleMotion);
     };
-  }, [threshold, lastShakeTime, requestPermission]);
+  }, [enabled, motionConstructor, permissionGranted, requiresPermission, threshold]);
 
-  return { isShaking, requestPermission, permissionGranted, tilt };
+  return { isShaking, requestPermission, permissionGranted, requiresPermission, tilt };
 };

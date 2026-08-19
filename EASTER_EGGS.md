@@ -19,8 +19,8 @@ these lives in `src/contexts/EasterEggContext.tsx`, which wraps the Index page.
   (the default theme).
 - **Effect:** Snow mode activates automatically: falling snow, a Santa hat on
   the logo, twinkling Christmas lights under the header, snow accumulation on
-  the footer, and the shake effect. A `MutationObserver` watches the `<html>`
-  class so flipping the theme mid-visit toggles the mode live.
+  the footer, and the shake effect. The shared theme context toggles the mode
+  live when the user changes theme.
 - **Files:** `src/contexts/EasterEggContext.tsx`
 - **Details:** See `CHRISTMAS_SEASON_BEHAVIOR.md`.
 
@@ -36,8 +36,7 @@ these lives in `src/contexts/EasterEggContext.tsx`, which wraps the Index page.
   strike also reveals a black castle-and-mountains silhouette at the bottom
   of the screen for as long as the sky stays lit — and a
   pumpkin toggle button shows up in the header to switch the mode manually.
-  Auto-activates the same way as Christmas mode — a `MutationObserver` watches
-  the `<html>` class for live theme flips.
+  Auto-activates from the same shared theme context as Christmas mode.
 - **Files:** `src/contexts/EasterEggContext.tsx`,
   `src/components/PumpkinOverlay.tsx`, `src/components/HalloweenPumpkin.tsx`,
   `src/components/BatsEffect.tsx`, `src/components/LightningEffect.tsx`,
@@ -65,7 +64,7 @@ these lives in `src/contexts/EasterEggContext.tsx`, which wraps the Index page.
 ## 6. Tilt-steered snow
 
 - **Trigger:** Tilt a mobile device while snow is falling.
-- **Effect:** Falling flakes drift horizontally up to ±100px based on device
+- **Effect:** Falling flakes drift horizontally based on device
   tilt (normalized ±1 from accelerometer data).
 - **Files:** `src/components/SnowEffect.tsx`, `src/hooks/useDeviceShake.ts`
 
@@ -73,7 +72,7 @@ these lives in `src/contexts/EasterEggContext.tsx`, which wraps the Index page.
 
 - **Trigger:** Automatic while snow mode is active.
 - **Effect:** A wavy SVG snow drift sits on top of the footer; falling flakes
-  stop at `100vh - 60px` so they appear to land in it.
+  stop at the dynamic viewport height minus 60px so they appear to land in it.
 - **Files:** `src/components/SnowAccumulation.tsx`
 
 ## Interactive touches (not hidden, but delightful)
@@ -82,10 +81,8 @@ these lives in `src/contexts/EasterEggContext.tsx`, which wraps the Index page.
   cursor, plus a hover box-shadow glow (`src/pages/Index.tsx`).
 - **Social icon glow:** Social icons get a drop-shadow glow that follows the
   mouse (`src/components/SocialLinks.tsx`).
-- **404 console log:** `src/pages/NotFound.tsx` logs the bad path to the
-  console as an error.
 
 ## What does NOT exist
 
 No Konami code, no secret key combos, no click counters, no sounds, no hidden
-routes, and no console art — routes are just `/` and the 404 catch-all.
+routes, and no console art. The site is a single static page.

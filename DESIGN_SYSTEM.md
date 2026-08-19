@@ -68,16 +68,16 @@ Used for the logo radial glow and social-icon drop shadows
 
 ## Typography
 
-- **Font:** Inter (400/500/600/700), loaded from Google Fonts in `index.html`.
-- **Stack:** `font-sans` = `Inter, system-ui, sans-serif`.
-- **Hierarchy on the home page:** `h1` brand "dtutila", `h2` subtitle
+- **Font:** The platform UI font; no render-blocking web-font request.
+- **Stack:** `font-sans` = `ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif`.
+- **Hierarchy on the home page:** `h1` brand "dtutila", subtitle paragraph
   "Software Engineer".
 
 ## Radius, spacing, transitions
 
 - `--radius: 0.75rem` — `lg` = radius, `md` = −2px, `sm` = −4px.
-- Global theme cross-fade: every element transitions `background-color`,
-  `color`, and `border-color` over `0.3s ease` (`src/index.css:96`).
+- Theme transitions are scoped to the page shell and fixed chrome, avoiding
+  style work on every descendant.
 - `--transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)` — defined but
   currently unused.
 
@@ -89,7 +89,6 @@ Used for the logo radial glow and social-icon drop shadows
 | `twinkle` | 1.5s ease-in-out infinite, staggered `i * 0.1s` | `ChristmasLights` bulbs |
 | `shake-snow-physics` | 2.8s `cubic-bezier(0.25, 0.46, 0.45, 0.94)` forwards | `SnowballShakeEffect` |
 | `fall-and-bounce` | per-component | Header falling-text easter egg |
-| `accordion-down/up` | 0.2s ease-out | shadcn accordion |
 | `animate-in` / `fade-in` etc. | — | via `tailwindcss-animate` |
 
 Note: none of the effect animations currently honor `prefers-reduced-motion`.
@@ -107,8 +106,7 @@ Hardcoded, theme-independent (`src/components/ChristmasLights.tsx:73`):
 
 - Always reference colors through the semantic tokens (`bg-background`,
   `text-foreground`, `bg-primary`, …) — never hardcode theme colors in
-  components, so both themes keep working. (`src/pages/NotFound.tsx` currently
-  violates this with hardcoded `bg-gray-100` / `text-blue-500`.)
+  components, so both themes keep working.
 - All new colors MUST be added as HSL values in `src/index.css` (project
   convention stated at the top of that file).
 - Seasonal/effect colors are the one exception to the token rule — they are

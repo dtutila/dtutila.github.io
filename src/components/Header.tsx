@@ -1,6 +1,7 @@
 import { ThemeToggle } from "./ThemeToggle";
-import { useEasterEgg } from "@/contexts/EasterEggContext";
-import { useState, useEffect } from "react";
+import { useEasterEgg } from "@/contexts/EasterEggState";
+import { useState } from "react";
+import { useTheme } from "@/contexts/ThemeContext";
 import { ChristmasHat } from "./ChristmasHat";
 import { ChristmasLights } from "./ChristmasLights";
 import { HalloweenPumpkin } from "./HalloweenPumpkin";
@@ -8,25 +9,8 @@ import { HalloweenPumpkin } from "./HalloweenPumpkin";
 export const Header = () => {
   const { isDropped, triggerDrop, isSnowActive, setIsSnowActive, isHalloweenActive, setIsHalloweenActive } = useEasterEgg();
   const [isAnimating, setIsAnimating] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  useEffect(() => {
-    // Check if dark mode is active
-    const checkDarkMode = () => {
-      setIsDarkMode(document.documentElement.classList.contains('dark'));
-    };
-    
-    checkDarkMode();
-    
-    // Watch for theme changes
-    const observer = new MutationObserver(checkDarkMode);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class'],
-    });
-    
-    return () => observer.disconnect();
-  }, []);
+  const { theme } = useTheme();
+  const isDarkMode = theme === "dark";
 
   const handleMouseEnter = () => {
     // Only trigger easter egg in light mode
@@ -37,15 +21,16 @@ export const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-sm bg-background/80 border-b border-border">
+    <header className="site-header">
+      <a href="#main-content" className="skip-link">Skip to content</a>
       <ChristmasLights isActive={isSnowActive} />
-      <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+      <div className="safe-inline container mx-auto flex items-center justify-between py-3 sm:py-4">
         <div className="text-lg font-semibold text-foreground">
           {!isDropped || isDarkMode ? (
             <a 
               href="https://dtutila.com" 
               onMouseEnter={handleMouseEnter}
-              className="cursor-pointer"
+              className="rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
             >
               dtutila
             </a>
@@ -69,6 +54,7 @@ export const Header = () => {
       {/* Falling animation element - only in light mode */}
       {isAnimating && !isDarkMode && (
         <div 
+          aria-hidden="true"
           className="fixed text-lg font-semibold text-foreground pointer-events-none z-[100]"
           style={{
             left: '2rem',

@@ -1,9 +1,21 @@
-import { Github, Linkedin } from "lucide-react";
 import { useState, useRef } from "react";
+
+const GitHubIcon = () => (
+  <svg aria-hidden="true" viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor">
+    <path d="M12 .7A11.5 11.5 0 0 0 8.36 23.1c.58.1.79-.25.79-.56v-2.23c-3.22.7-3.9-1.37-3.9-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.04 1.77 2.72 1.26 3.38.96.1-.75.4-1.26.74-1.55-2.57-.3-5.27-1.29-5.27-5.69 0-1.26.45-2.29 1.2-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.77.11 3.06.75.81 1.2 1.84 1.2 3.1 0 4.42-2.71 5.39-5.29 5.68.42.36.79 1.06.79 2.14v3.27c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .7Z" />
+  </svg>
+);
+
+const LinkedInIcon = () => (
+  <svg aria-hidden="true" viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor">
+    <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V8.98h3.42v1.57h.05c.47-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.29ZM5.32 7.41a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13Zm1.78 13.04H3.54V8.98H7.1v11.47ZM22.23 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.73V1.73C24 .77 23.21 0 22.23 0Z" />
+  </svg>
+);
 
 // X (formerly Twitter) icon
 const XIcon = () => (
   <svg
+    aria-hidden="true"
     width="24"
     height="24"
     viewBox="0 0 24 24"
@@ -21,6 +33,7 @@ const XIcon = () => (
 // Farcaster icon - styled to match their actual logo
 const FarcasterIcon = () => (
   <svg
+    aria-hidden="true"
     width="24"
     height="24"
     viewBox="0 0 1000 1000"
@@ -53,7 +66,7 @@ const socialLinks: SocialLink[] = [
   {
     name: "GitHub",
     url: "https://github.com/dtutila",
-    icon: <Github className="h-6 w-6" />,
+    icon: <GitHubIcon />,
   },
   {
     name: "X",
@@ -63,7 +76,7 @@ const socialLinks: SocialLink[] = [
   {
     name: "LinkedIn",
     url: "https://linkedin.com/in/danieltutila",
-    icon: <Linkedin className="h-6 w-6" />,
+    icon: <LinkedInIcon />,
   },
   {
     name: "Farcaster",
@@ -74,20 +87,20 @@ const socialLinks: SocialLink[] = [
 
 export function SocialLinks() {
   return (
-    <div className="flex gap-6">
+    <nav className="flex gap-2 sm:gap-3" aria-label="Social profiles">
       {socialLinks.map((link) => (
         <SocialIcon key={link.name} link={link} />
       ))}
-    </div>
+    </nav>
   );
 }
 
 function SocialIcon({ link }: { link: SocialLink }) {
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
   const [isHovering, setIsHovering] = useState(false);
-  const iconRef = useRef<HTMLDivElement>(null);
+  const iconRef = useRef<HTMLSpanElement>(null);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLSpanElement>) => {
     if (iconRef.current) {
       const rect = iconRef.current.getBoundingClientRect();
       const x = ((e.clientX - rect.left) / rect.width) * 100;
@@ -101,10 +114,10 @@ function SocialIcon({ link }: { link: SocialLink }) {
       href={link.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative text-muted-foreground transition-colors hover:text-primary"
-      aria-label={link.name}
+      className="group relative inline-flex min-h-11 min-w-11 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+      aria-label={`Visit ${link.name} profile (opens in a new tab)`}
     >
-      <div 
+      <span
         ref={iconRef}
         className="relative inline-block transition-all duration-300"
         style={{
@@ -128,11 +141,10 @@ function SocialIcon({ link }: { link: SocialLink }) {
             filter: 'blur(20px)',
           }}
         />
-        <div className="relative z-10 transition-transform group-hover:scale-110 group-hover:-translate-y-1">
+        <span className="relative z-10 block transition-transform group-hover:-translate-y-1 group-hover:scale-110">
           {link.icon}
-        </div>
-      </div>
-      <span className="sr-only">{link.name}</span>
+        </span>
+      </span>
     </a>
   );
 }

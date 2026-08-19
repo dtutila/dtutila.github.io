@@ -1,41 +1,32 @@
-import { useState, useEffect } from 'react';
+import { useState } from "react";
 
 interface ShakePermissionButtonProps {
   requestPermission: () => Promise<boolean>;
   permissionGranted: boolean;
+  requiresPermission: boolean;
 }
 
-export const ShakePermissionButton = ({ requestPermission, permissionGranted }: ShakePermissionButtonProps) => {
-  const [needsPermission, setNeedsPermission] = useState(false);
+export const ShakePermissionButton = ({ requestPermission, permissionGranted, requiresPermission }: ShakePermissionButtonProps) => {
   const [isRequesting, setIsRequesting] = useState(false);
-
-  useEffect(() => {
-    // Check if we need to show permission button (iOS 13+)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if (typeof (DeviceMotionEvent as any).requestPermission === 'function' && !permissionGranted) {
-      setNeedsPermission(true);
-    }
-  }, [permissionGranted]);
 
   const handleRequest = async () => {
     setIsRequesting(true);
-    const granted = await requestPermission();
+    await requestPermission();
     setIsRequesting(false);
-    if (granted) {
-      setNeedsPermission(false);
-    }
   };
 
-  if (!needsPermission) return null;
+  if (!requiresPermission || permissionGranted) return null;
 
   return (
-    <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom duration-500">
+    <div className="fixed bottom-20 left-1/2 z-50 w-[min(90vw,20rem)] -translate-x-1/2 animate-in slide-in-from-bottom duration-500 sm:bottom-24">
       <button
+        type="button"
         onClick={handleRequest}
         disabled={isRequesting}
-        className="px-6 py-3 bg-primary text-primary-foreground rounded-lg shadow-lg hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+        className="flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 text-primary-foreground shadow-lg transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
+        aria-live="polite"
       >
-        <span className="text-2xl">📱</span>
+        <span aria-hidden="true" className="text-2xl">📱</span>
         <span className="font-medium">
           {isRequesting ? 'Requesting...' : 'Enable Shake Effect'}
         </span>

@@ -1,9 +1,11 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SocialLinks } from "@/components/SocialLinks";
-import logo from "@/assets/logo.png";
+import logoFallback from "@/assets/logo-fallback.jpg";
+import logoWebp from "@/assets/logo.webp";
 import { useState, useRef, lazy, Suspense } from "react";
-import { EasterEggProvider, useEasterEgg } from "@/contexts/EasterEggContext";
+import { EasterEggProvider } from "@/contexts/EasterEggContext";
+import { useEasterEgg } from "@/contexts/EasterEggState";
 import { SnowballShakeEffect } from "@/components/SnowballShakeEffect";
 import { ShakePermissionButton } from "@/components/ShakePermissionButton";
 import { useDeviceShake } from "@/hooks/useDeviceShake";
@@ -30,7 +32,7 @@ const IndexContent = () => {
   const [isHovering, setIsHovering] = useState(false);
   const logoRef = useRef<HTMLDivElement>(null);
   const { isSnowActive, isHalloweenActive } = useEasterEgg();
-  const { isShaking, requestPermission, permissionGranted, tilt } = useDeviceShake();
+  const { isShaking, requestPermission, permissionGranted, requiresPermission, tilt } = useDeviceShake(isSnowActive);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (logoRef.current) {
@@ -48,22 +50,28 @@ const IndexContent = () => {
         {isHalloweenActive && <BatsEffect />}
         {isHalloweenActive && <LightningEffect />}
       </Suspense>
-      <SnowballShakeEffect isShaking={isShaking} tilt={tilt} />
-      <ShakePermissionButton requestPermission={requestPermission} permissionGranted={permissionGranted} />
-      <main className="min-h-screen bg-gradient-to-b from-background to-background transition-colors" style={{ background: 'var(--gradient-background)' }}>
+      {isSnowActive && <SnowballShakeEffect isShaking={isShaking} tilt={tilt} />}
+      {isSnowActive && (
+        <ShakePermissionButton
+          requestPermission={requestPermission}
+          permissionGranted={permissionGranted}
+          requiresPermission={requiresPermission}
+        />
+      )}
+      <div className="page-shell">
         <Header />
 
-      <div className="container relative z-10 mx-auto flex min-h-screen items-center justify-center px-6 py-20">
-        <div className="max-w-3xl text-center animate-in fade-in duration-1000">
-          <div className="mb-8 flex justify-center">
+      <main id="main-content" tabIndex={-1} className="safe-inline container relative z-10 mx-auto flex flex-1 items-center justify-center pb-20 pt-20 outline-none sm:pb-24 sm:pt-24">
+        <div className="hero-content max-w-3xl text-center animate-in fade-in duration-1000">
+          <div className="profile-spacing flex justify-center">
             <div className="relative">
               <Suspense fallback={null}>
-                <SantaHatOverlay isActive={isSnowActive} />
-                <PumpkinOverlay isActive={isHalloweenActive} />
+                {isSnowActive && <SantaHatOverlay isActive />}
+                {isHalloweenActive && <PumpkinOverlay isActive />}
               </Suspense>
               <div 
                 ref={logoRef}
-                className="relative w-40 h-40 rounded-full overflow-hidden border-4 border-primary transition-all duration-300"
+                className="profile-avatar relative overflow-hidden rounded-full border-4 border-primary transition-shadow duration-300"
                 style={{ 
                   background: 'var(--gradient-primary)',
                   boxShadow: isHovering 
@@ -86,33 +94,37 @@ const IndexContent = () => {
                   filter: 'blur(20px)',
                 }}
               />
-              <img 
-                src={logo} 
-                alt="Logo" 
-                className="w-full h-full object-cover relative z-10"
-              />
+              <picture>
+                <source srcSet={logoWebp} type="image/webp" />
+                <img
+                  src={logoFallback}
+                  alt="Illustrated portrait of dtutila"
+                  width="400"
+                  height="400"
+                  fetchPriority="high"
+                  className="relative z-10 h-full w-full object-cover"
+                />
+              </picture>
               </div>
             </div>
           </div>
 
-          <h1 className="mb-4 text-5xl font-bold tracking-tight text-foreground sm:text-6xl md:text-7xl">
+          <h1 className="hero-title mb-3 text-5xl font-bold tracking-tight text-foreground sm:mb-4 sm:text-6xl md:text-7xl">
             dtutila
           </h1>
           
-          <h2 className="mb-6 text-2xl font-semibold text-muted-foreground sm:text-3xl">
+          <p className="hero-subtitle mb-4 text-xl font-semibold text-muted-foreground sm:mb-6 sm:text-3xl">
             Software Engineer
-          </h2>
-          
-          
+          </p>
 
           <div className="flex justify-center">
             <SocialLinks />
           </div>
         </div>
-      </div>
+      </main>
 
         <Footer />
-      </main>
+      </div>
     </>
   );
 };

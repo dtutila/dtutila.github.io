@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { isHalloweenSeasonActive } from "@/contexts/EasterEggContext";
+import { useTheme } from "@/contexts/ThemeContext";
+import { isHalloweenSeason } from "@/lib/seasons";
 
 interface HalloweenPumpkinProps {
   isActive: boolean;
@@ -7,32 +7,10 @@ interface HalloweenPumpkinProps {
 }
 
 export const HalloweenPumpkin = ({ isActive, onToggle }: HalloweenPumpkinProps) => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isHalloweenSeason, setIsHalloweenSeason] = useState(false);
-
-  useEffect(() => {
-    // Check if dark mode is active
-    const checkDarkMode = () => {
-      setIsDarkMode(document.documentElement.classList.contains('dark'));
-    };
-
-    checkDarkMode();
-
-    // Watch for theme changes
-    const observer = new MutationObserver(checkDarkMode);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class'],
-    });
-
-    // Check Halloween season (October 1 - November 2)
-    setIsHalloweenSeason(isHalloweenSeasonActive());
-
-    return () => observer.disconnect();
-  }, []);
+  const { theme } = useTheme();
 
   // Only show in dark mode during October
-  if (!isDarkMode || !isHalloweenSeason) {
+  if (theme !== "dark" || !isHalloweenSeason()) {
     return null;
   }
 
@@ -42,10 +20,13 @@ export const HalloweenPumpkin = ({ isActive, onToggle }: HalloweenPumpkinProps) 
   return (
     <button
       onClick={onToggle}
-      className="transition-all hover:scale-110 cursor-pointer"
-      aria-label="Toggle Halloween effect"
+      type="button"
+      className="control-button"
+      aria-pressed={isActive}
+      aria-label={`${isActive ? "Disable" : "Enable"} Halloween effect`}
     >
       <svg
+        aria-hidden="true"
         width="24"
         height="24"
         viewBox="0 0 24 24"

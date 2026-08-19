@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useTheme } from "@/contexts/ThemeContext";
+import { isChristmasSeason } from "@/lib/seasons";
 
 interface ChristmasHatProps {
   isActive: boolean;
@@ -6,44 +7,23 @@ interface ChristmasHatProps {
 }
 
 export const ChristmasHat = ({ isActive, onToggle }: ChristmasHatProps) => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isChristmasSeason, setIsChristmasSeason] = useState(false);
-
-  useEffect(() => {
-    // Check if dark mode is active
-    const checkDarkMode = () => {
-      setIsDarkMode(document.documentElement.classList.contains('dark'));
-    };
-    
-    checkDarkMode();
-    
-    // Watch for theme changes
-    const observer = new MutationObserver(checkDarkMode);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class'],
-    });
-    
-    // Check if it's November or December
-    const currentMonth = new Date().getMonth(); // 0-indexed: 10 = November, 11 = December
-    const isChristmas = currentMonth === 10 || currentMonth === 11;
-    setIsChristmasSeason(isChristmas);
-
-    return () => observer.disconnect();
-  }, []);
+  const { theme } = useTheme();
 
   // Only show in dark mode during November/December
-  if (!isDarkMode || !isChristmasSeason) {
+  if (theme !== "dark" || !isChristmasSeason()) {
     return null;
   }
 
   return (
     <button
       onClick={onToggle}
-      className="transition-all hover:scale-110 cursor-pointer"
-      aria-label="Toggle snow effect"
+      type="button"
+      className="control-button"
+      aria-pressed={isActive}
+      aria-label={`${isActive ? "Disable" : "Enable"} snow effect`}
     >
       <svg
+        aria-hidden="true"
         width="24"
         height="24"
         viewBox="0 0 24 24"

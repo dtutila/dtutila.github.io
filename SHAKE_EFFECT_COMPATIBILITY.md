@@ -50,7 +50,8 @@ The snowball shake effect detects device motion and creates a visual snow burst 
 
 ### Hook: `useDeviceShake`
 ```typescript
-const { isShaking, tilt, requestPermission, permissionGranted } = useDeviceShake();
+const { isShaking, tilt, requestPermission, permissionGranted, requiresPermission } =
+  useDeviceShake(isSnowActive);
 ```
 
 **Returns:**
@@ -58,6 +59,7 @@ const { isShaking, tilt, requestPermission, permissionGranted } = useDeviceShake
 - `tilt`: `{ x, y }` - device tilt normalized to ±1 (used to steer falling snow)
 - `requestPermission`: function - manually request iOS permission
 - `permissionGranted`: boolean - permission status
+- `requiresPermission`: boolean - whether the browser requires a user gesture
 
 **Features:**
 - Checks for DeviceMotionEvent support
@@ -65,6 +67,7 @@ const { isShaking, tilt, requestPermission, permissionGranted } = useDeviceShake
 - Null-safe value handling
 - Passive event listeners for better performance
 - Proper cleanup on unmount
+- Listener is only attached while snow mode is active
 
 ### Component: `SnowballShakeEffect`
 - Renders burst of snowflakes on shake

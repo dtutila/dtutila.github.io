@@ -8,7 +8,7 @@ The Christmas effects are **ONLY active in DARK MODE during November and Decembe
 ```typescript
 // Must satisfy BOTH conditions:
 1. isChristmasSeason() → month === 10 || month === 11
-2. isDarkMode() → document.documentElement.classList.contains('dark')
+2. theme === "dark" → provided by the shared theme context
 ```
 
 ### Theme Behavior
@@ -57,40 +57,17 @@ The Christmas effects are **ONLY active in DARK MODE during November and Decembe
 ### 1. EasterEggContext (`/src/contexts/EasterEggContext.tsx`)
 ```typescript
 useEffect(() => {
-  const checkAndActivate = () => {
-    if (isChristmasSeason() && isDarkMode()) {
-      setIsSnowActive(true);  // Auto-activate during Nov/Dec in dark mode
-    } else {
-      setIsSnowActive(false); // Disable in light mode or outside season
-    }
-  };
-
-  checkAndActivate();
-
-  // Watch for theme changes
-  const observer = new MutationObserver(checkAndActivate);
-  observer.observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ['class'],
-  });
-
-  return () => observer.disconnect();
-}, []);
+  setIsSnowActive(isChristmasSeason() && theme === "dark");
+}, [theme]);
 ```
-- Runs on mount and watches for theme changes
+- Runs on mount and reacts to theme-context changes
 - Only activates if BOTH Christmas season AND dark mode
 - Automatically disables when switching to light mode
 - Re-enables when switching back to dark mode
 
 ### 2. ChristmasHat Component (`/src/components/ChristmasHat.tsx`)
 ```typescript
-useEffect(() => {
-  const currentMonth = new Date().getMonth();
-  const isChristmas = currentMonth === 10 || currentMonth === 11;
-  setIsChristmasSeason(isChristmas);
-}, []);
-
-if (!isDarkMode || !isChristmasSeason) {
+if (theme !== "dark" || !isChristmasSeason()) {
   return null;  // Don't render outside Nov/Dec or in light mode
 }
 ```

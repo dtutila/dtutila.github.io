@@ -1,35 +1,14 @@
 import { useState, useEffect } from "react";
+import { useTheme } from "@/contexts/ThemeContext";
+import { isChristmasSeason } from "@/lib/seasons";
 
 interface ChristmasLightsProps {
   isActive: boolean;
 }
 
 export const ChristmasLights = ({ isActive }: ChristmasLightsProps) => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isChristmasSeason, setIsChristmasSeason] = useState(false);
+  const { theme } = useTheme();
   const [lightCount, setLightCount] = useState(20);
-
-  useEffect(() => {
-    // Check if dark mode is active
-    const checkDarkMode = () => {
-      setIsDarkMode(document.documentElement.classList.contains('dark'));
-    };
-    
-    checkDarkMode();
-    
-    // Watch for theme changes
-    const observer = new MutationObserver(checkDarkMode);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class'],
-    });
-    
-    // Check if it's November or December
-    const currentMonth = new Date().getMonth();
-    setIsChristmasSeason(currentMonth === 10 || currentMonth === 11);
-    
-    return () => observer.disconnect();
-  }, []);
 
   useEffect(() => {
     // Calculate number of lights based on screen width
@@ -66,7 +45,7 @@ export const ChristmasLights = ({ isActive }: ChristmasLightsProps) => {
   }, []);
 
   // Only show in dark mode during November/December when active
-  if (!isDarkMode || !isChristmasSeason || !isActive) {
+  if (theme !== "dark" || !isChristmasSeason() || !isActive) {
     return null;
   }
 
@@ -150,7 +129,7 @@ export const ChristmasLights = ({ isActive }: ChristmasLightsProps) => {
               />
               
               {/* LED bulb - faceted gem-like appearance */}
-              <div className="relative w-3.5 h-5.5 mx-auto">
+              <div className="relative mx-auto h-5 w-3.5">
                 <svg
                   viewBox="0 0 16 20"
                   className="w-full h-full transition-all duration-300"

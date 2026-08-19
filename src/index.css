@@ -95,7 +95,6 @@ All colors MUST be HSL.
 @layer base {
   * {
     @apply border-border;
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
   }
 
   body {
@@ -103,7 +102,183 @@ All colors MUST be HSL.
   }
   
   html {
+    color-scheme: light;
     transition: background-color 0.3s ease;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer components {
+  .page-shell {
+    display: flex;
+    min-height: 100vh;
+    min-height: 100svh;
+    flex-direction: column;
+    background: var(--gradient-background);
+    transition: background 0.3s ease;
+  }
+
+  .site-header,
+  .site-footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    border-color: hsl(var(--border));
+    background-color: hsl(var(--background) / 0.88);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .site-header {
+    top: 0;
+    padding-top: env(safe-area-inset-top);
+    border-bottom-width: 1px;
+  }
+
+  .site-footer {
+    bottom: 0;
+    padding-bottom: env(safe-area-inset-bottom);
+    border-top-width: 1px;
+  }
+
+  .profile-avatar {
+    width: 8rem;
+    height: 8rem;
+  }
+
+  .safe-inline {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+
+  .profile-spacing {
+    margin-bottom: 1.5rem;
+  }
+
+  .control-button {
+    display: inline-flex;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    color: hsl(var(--foreground));
+    transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .control-button:hover {
+    background-color: hsl(var(--foreground) / 0.1);
+    transform: scale(1.06);
+  }
+
+  .control-button:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  .skip-link {
+    position: fixed;
+    top: calc(0.5rem + env(safe-area-inset-top));
+    left: 0.75rem;
+    z-index: 100;
+    transform: translateY(-200%);
+    border-radius: 0.375rem;
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    padding: 0.5rem 0.75rem;
+    box-shadow: 0 0 0 2px hsl(var(--ring));
+    transition: transform 0.15s ease;
+  }
+
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 640px) {
+  .safe-inline {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-left: max(1.5rem, env(safe-area-inset-left));
+    padding-right: max(1.5rem, env(safe-area-inset-right));
+  }
+
+  .profile-avatar {
+    width: 10rem;
+    height: 10rem;
+  }
+
+  .profile-spacing {
+    margin-bottom: 2rem;
+  }
+}
+
+@media (max-height: 540px) {
+  .profile-avatar {
+    width: 6rem;
+    height: 6rem;
+  }
+
+  .profile-spacing {
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-content .hero-title {
+    margin-bottom: 0.125rem;
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+
+  .hero-content .hero-subtitle {
+    margin-bottom: 0.25rem;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+}
+
+@media (max-height: 400px) {
+  .site-header .container,
+  .site-footer .container {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  #main-content {
+    padding-top: 4.25rem;
+    padding-bottom: 3.5rem;
+  }
+
+  .profile-avatar {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+
+  .profile-spacing {
+    margin-bottom: 0.25rem;
+  }
+
+  .hero-content .hero-title {
+    margin-bottom: 0;
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+  }
+
+  .hero-content .hero-subtitle {
+    margin-bottom: 0;
+    font-size: 1rem;
+    line-height: 1.5rem;
   }
 }
 
@@ -122,68 +297,44 @@ All colors MUST be HSL.
   
   /* Initial explosion - fast upward/outward movement */
   8% {
-    transform: translate(
-      calc(var(--velocity-x) * -35px + var(--tilt-x, 0px)), 
-      calc(var(--velocity-y) * -40px + var(--tilt-y, 0px))
-    ) scale(1.2) rotate(calc(var(--velocity-x) * 90deg));
+    transform: translate(var(--x-8), var(--y-8)) scale(1.2) rotate(var(--r-8));
   }
   
   /* Peak of trajectory - gravity starts taking over */
   18% {
-    transform: translate(
-      calc(var(--velocity-x) * -55px + var(--tilt-x, 0px) * 1.5), 
-      calc(var(--velocity-y) * -60px + var(--tilt-y, 0px))
-    ) scale(1.1) rotate(calc(var(--velocity-x) * 180deg));
+    transform: translate(var(--x-18), var(--y-18)) scale(1.1) rotate(var(--r-18));
   }
   
   /* Falling phase begins - gravity acceleration */
   30% {
-    transform: translate(
-      calc(var(--velocity-x) * -45px + var(--tilt-x, 0px) * 2), 
-      calc(var(--velocity-y) * -30px + var(--tilt-y, 0px) * 1.5)
-    ) scale(1.0) rotate(calc(var(--velocity-x) * 270deg));
+    transform: translate(var(--x-30), var(--y-30)) scale(1) rotate(var(--r-30));
   }
   
   /* Accelerating downward - gravity in full effect */
   45% {
-    transform: translate(
-      calc(var(--velocity-x) * -30px + var(--tilt-x, 0px) * 2.5), 
-      calc(var(--velocity-y) * 20px + var(--tilt-y, 0px) * 2)
-    ) scale(0.95) rotate(calc(var(--velocity-x) * 360deg));
+    transform: translate(var(--x-45), var(--y-45)) scale(0.95) rotate(var(--r-45));
   }
   
   /* Rapid descent */
   60% {
-    transform: translate(
-      calc(var(--velocity-x) * -15px + var(--tilt-x, 0px) * 3), 
-      calc(var(--velocity-y) * 80px + var(--tilt-y, 0px) * 2.5)
-    ) scale(0.85) rotate(calc(var(--velocity-x) * 450deg));
+    transform: translate(var(--x-60), var(--y-60)) scale(0.85) rotate(var(--r-60));
   }
   
   /* Approaching ground - air resistance */
   75% {
-    transform: translate(
-      calc(var(--velocity-x) * -5px + var(--tilt-x, 0px) * 3), 
-      calc(var(--velocity-y) * 140px + var(--tilt-y, 0px) * 3)
-    ) scale(0.75) rotate(calc(var(--velocity-x) * 520deg));
+    transform: translate(var(--x-75), var(--y-75)) scale(0.75) rotate(var(--r-75));
     opacity: 0.9;
   }
   
   /* Settling - slowing down near ground */
   88% {
-    transform: translate(
-      calc(var(--tilt-x, 0px) * 3), 
-      calc(180px + var(--tilt-y, 0px) * 3)
-    ) scale(0.6) rotate(calc(var(--velocity-x) * 560deg));
+    transform: translate(var(--x-88), var(--y-88)) scale(0.6) rotate(var(--r-88));
     opacity: 0.6;
   }
   
   /* Final rest - landed */
   100% {
-    transform: translate(
-      calc(var(--tilt-x, 0px) * 3), 
-      calc(200px + var(--tilt-y, 0px) * 3)
-    ) scale(0.5) rotate(calc(var(--velocity-x) * 580deg));
+    transform: translate(var(--x-100), var(--y-100)) scale(0.5) rotate(var(--r-100));
     opacity: 0;
   }
 }
@@ -217,7 +368,8 @@ All colors MUST be HSL.
     opacity: 1;
   }
   100% {
-    transform: translateY(calc(100vh - 60px)) translateX(100px);
+    transform: translateY(calc(100vh - 60px)) translateX(var(--snow-drift, 0px));
+    transform: translateY(calc(100dvh - 60px)) translateX(var(--snow-drift, 0px));
     opacity: 1;
   }
 }
@@ -278,6 +430,12 @@ All colors MUST be HSL.
   .animate-shake-snow-smooth,
   .animate-snowfall-accumulate {
     display: none;
+  }
+
+  .page-shell,
+  .site-header,
+  .site-footer {
+    transition: none;
   }
 }
 

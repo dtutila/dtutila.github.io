@@ -32,16 +32,10 @@ Live at [dtutila.com](https://dtutila.com).
 ### Core
 - React 18.3
 - TypeScript 5.8
-- Vite 7.1 (with SWC via `@vitejs/plugin-react-swc`)
+- Vite 7.3 (with SWC via `@vitejs/plugin-react-swc`)
 
 ### UI & Styling
 - Tailwind CSS 3.4 + tailwindcss-animate
-- shadcn/ui (Radix UI primitives)
-- lucide-react icons
-
-### Routing & Data
-- react-router-dom 6
-- @tanstack/react-query 5
 
 ## 🛠️ Getting Started
 
@@ -85,7 +79,6 @@ The app will be available at `http://localhost:8080`
 ├── src/
 │   ├── assets/          # Static assets (logo, Santa hat image)
 │   ├── components/      # React components
-│   │   ├── ui/          # shadcn/ui components
 │   │   ├── Header.tsx
 │   │   ├── Footer.tsx
 │   │   ├── ThemeProvider.tsx
@@ -99,11 +92,10 @@ The app will be available at `http://localhost:8080`
 │   │   ├── SnowballShakeEffect.tsx
 │   │   └── ShakePermissionButton.tsx
 │   ├── contexts/        # React contexts (EasterEggContext)
-│   ├── hooks/           # Custom hooks (useDeviceShake, use-mobile, use-toast)
-│   ├── lib/             # Utility functions (cn)
+│   ├── hooks/           # Custom hooks (device motion)
+│   ├── lib/             # Seasonal date utilities
 │   ├── pages/           # Page components
-│   │   ├── Index.tsx
-│   │   └── NotFound.tsx
+│   │   └── Index.tsx
 │   ├── App.tsx          # Main app component
 │   ├── main.tsx         # Entry point
 │   └── index.css        # Global styles + design tokens (HSL CSS variables)

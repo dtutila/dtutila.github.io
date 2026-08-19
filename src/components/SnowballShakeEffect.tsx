@@ -51,6 +51,10 @@ export const SnowballShakeEffect = ({ isShaking, tilt = { x: 0, y: 0 } }: Snowba
         const tiltInfluenceX = tilt.x * 60 * flake.velocityX;
         const tiltInfluenceY = tilt.y * 60 * flake.velocityY;
         
+        const x = (multiplier: number) => `${flake.velocityX * multiplier + tiltInfluenceX}px`;
+        const y = (multiplier: number) => `${flake.velocityY * multiplier + tiltInfluenceY}px`;
+        const rotate = (multiplier: number) => `${flake.velocityX * multiplier}deg`;
+
         return (
           <div
             key={flake.id}
@@ -61,10 +65,30 @@ export const SnowballShakeEffect = ({ isShaking, tilt = { x: 0, y: 0 } }: Snowba
               width: `${flake.size}px`,
               height: `${flake.size}px`,
               animationDelay: `${flake.delay}s`,
-              '--velocity-x': flake.velocityX,
-              '--velocity-y': flake.velocityY,
-              '--tilt-x': `${tiltInfluenceX}px`,
-              '--tilt-y': `${tiltInfluenceY}px`,
+              '--x-8': x(-35),
+              '--y-8': y(-40),
+              '--x-18': x(-55),
+              '--y-18': y(-60),
+              '--x-30': x(-45),
+              '--y-30': y(-30),
+              '--x-45': x(-30),
+              '--y-45': y(20),
+              '--x-60': x(-15),
+              '--y-60': y(80),
+              '--x-75': x(-5),
+              '--y-75': y(140),
+              '--x-88': `${tiltInfluenceX}px`,
+              '--y-88': `${180 + tiltInfluenceY}px`,
+              '--x-100': `${tiltInfluenceX}px`,
+              '--y-100': `${200 + tiltInfluenceY}px`,
+              '--r-8': rotate(90),
+              '--r-18': rotate(180),
+              '--r-30': rotate(270),
+              '--r-45': rotate(360),
+              '--r-60': rotate(450),
+              '--r-75': rotate(520),
+              '--r-88': rotate(560),
+              '--r-100': rotate(580),
             } as React.CSSProperties}
           >
             <div
