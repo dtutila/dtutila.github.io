@@ -91,7 +91,8 @@ Used for the logo radial glow and social-icon drop shadows
 | `fall-and-bounce` | per-component | Header falling-text easter egg |
 | `animate-in` / `fade-in` etc. | — | via `tailwindcss-animate` |
 
-Note: none of the effect animations currently honor `prefers-reduced-motion`.
+Effect animations are neutralized when `prefers-reduced-motion: reduce` is
+active; snow particles are hidden rather than frozen on screen.
 
 ## Seasonal palette (Christmas mode)
 

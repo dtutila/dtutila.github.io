@@ -1,45 +1,20 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-type DeviceMotionConstructorWithPermission = typeof DeviceMotionEvent & {
-  requestPermission?: () => Promise<"granted" | "denied">;
-};
-
-const getMotionConstructor = () =>
-  window.DeviceMotionEvent as DeviceMotionConstructorWithPermission | undefined;
+const isIOSDevice = () =>
+  /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
 export const useDeviceShake = (enabled: boolean, threshold = 15) => {
-  const motionConstructor = getMotionConstructor();
-  const requiresPermission = typeof motionConstructor?.requestPermission === "function";
+  const motionSupported = Boolean(window.DeviceMotionEvent) && !isIOSDevice();
   const [isShaking, setIsShaking] = useState(false);
-  const [permissionGranted, setPermissionGranted] = useState(!requiresPermission);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const lastShakeTime = useRef(0);
   const resetTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
-  // Request permission function for iOS
-  const requestPermission = useCallback(async () => {
-    const constructor = getMotionConstructor();
-
-    if (typeof constructor?.requestPermission === "function") {
-      try {
-        const granted = await constructor.requestPermission() === "granted";
-        setPermissionGranted(granted);
-        return granted;
-      } catch (error) {
-        console.warn("Device motion permission was not granted:", error);
-        return false;
-      }
-    }
-
-    const supported = Boolean(constructor);
-    setPermissionGranted(supported);
-    return supported;
-  }, []);
-
   useEffect(() => () => clearTimeout(resetTimer.current), []);
 
   useEffect(() => {
-    if (!enabled || !motionConstructor || (requiresPermission && !permissionGranted)) {
+    if (!enabled || !motionSupported) {
       return;
     }
 
@@ -106,7 +81,7 @@ export const useDeviceShake = (enabled: boolean, threshold = 15) => {
     return () => {
       window.removeEventListener("devicemotion", handleMotion);
     };
-  }, [enabled, motionConstructor, permissionGranted, requiresPermission, threshold]);
+  }, [enabled, motionSupported, threshold]);
 
-  return { isShaking, requestPermission, permissionGranted, requiresPermission, tilt };
+  return { isShaking, tilt };
 };

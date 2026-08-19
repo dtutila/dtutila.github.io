@@ -1,147 +1,75 @@
-# Snowball Shake Effect - Cross-Platform Compatibility
+# Snowball Shake Effect - Platform Behavior
 
 ## Overview
-The snowball shake effect detects device motion and creates a visual snow burst animation when the user shakes their mobile device.
 
-## Platform Compatibility
+Snowfall remains visual-only on iPhone and iPad. Device motion is used only on
+supported non-iOS devices while Christmas snow mode is active.
 
-### ✅ Android
-- **Chrome**: Full support, auto-enabled
-- **Firefox**: Full support, auto-enabled
-- **Samsung Internet**: Full support, auto-enabled
-- **Edge**: Full support, auto-enabled
-- No permission required
+## Platform behavior
 
-### ✅ iOS (Safari)
-- **iOS 13+**: Requires user permission (button shown automatically)
-- **iOS 12 and below**: Auto-enabled, no permission required
-- **Chrome/Firefox on iOS**: Uses Safari WebView, same behavior as Safari
+### Android
 
-### ✅ Other Mobile Browsers
-- **Opera Mobile**: Full support
-- **UC Browser**: Full support
-- **Brave**: Full support
+- Chrome, Firefox, Samsung Internet, and Edge can use `DeviceMotionEvent` when
+  the browser and device expose it.
+- No application-level permission prompt is shown.
+- The passive motion listener is attached only while snow mode is active.
+- Shaking triggers the snowball burst; tilting steers falling snow.
+- Browsers that suppress or do not expose motion data degrade gracefully to
+  ordinary snowfall.
 
-## Features
+### iPhone and iPad
 
-### 1. Automatic Permission Handling
-- **iOS 13+**: Shows "Enable Shake Effect" button
-- **Android/Older iOS**: Auto-enabled on page load
-- Permission button appears at bottom center of screen
-- Button auto-hides after permission granted
+- Shake detection and tilt steering are intentionally disabled.
+- The site never calls `DeviceMotionEvent.requestPermission()`.
+- No motion-permission button or native permission dialog is shown.
+- Ordinary snowfall, the Santa hat, lights, and footer accumulation continue
+  to work normally.
 
-### 2. Smart Shake Detection
-- Uses device accelerometer data
-- Multiple detection algorithms for reliability:
-  - Dual-axis threshold detection
-  - Combined acceleration threshold
-- Prevents false positives with 100ms debounce
-- Prevents rapid re-triggers with 1-second cooldown
+### Desktop and unsupported devices
 
-### 3. Visual Effect
-- 60 snowflakes burst across the screen from a center-biased radial distribution
-- Random positions, sizes, velocities, and tilt-driven offsets
-- 6-stage physics animation (burst → peak → gravity fall → air resistance → settle → fade) with rotation and scaling
-- 2.8-second animation duration
-- Automatic cleanup after 3 seconds
-- See `SNOWBALL_PHYSICS.md` for the full physics breakdown
+- No motion listener is attached when `DeviceMotionEvent` is unavailable.
+- All non-motion seasonal effects continue to work.
 
-## Technical Implementation
+## Detection
 
-### Hook: `useDeviceShake`
+`useDeviceShake` excludes both classic iOS user agents and iPadOS devices that
+identify as macOS:
+
 ```typescript
-const { isShaking, tilt, requestPermission, permissionGranted, requiresPermission } =
-  useDeviceShake(isSnowActive);
+const isIOSDevice = () =>
+  /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 ```
 
-**Returns:**
-- `isShaking`: boolean - true when shake detected
-- `tilt`: `{ x, y }` - device tilt normalized to ±1 (used to steer falling snow)
-- `requestPermission`: function - manually request iOS permission
-- `permissionGranted`: boolean - permission status
-- `requiresPermission`: boolean - whether the browser requires a user gesture
+The hook is enabled by the current snow-mode state:
 
-**Features:**
-- Checks for DeviceMotionEvent support
-- Handles both `accelerationIncludingGravity` and `acceleration`
-- Null-safe value handling
-- Passive event listeners for better performance
-- Proper cleanup on unmount
-- Listener is only attached while snow mode is active
+```typescript
+const { isShaking, tilt } = useDeviceShake(isSnowActive);
+```
 
-### Component: `SnowballShakeEffect`
-- Renders burst of snowflakes on shake
-- High z-index (100) to appear above all content
-- Pointer-events disabled (non-interactive)
-- Automatic state management
+## Motion processing on supported devices
 
-### Component: `ShakePermissionButton`
-- Only shown on iOS 13+ when permission needed
-- Animated entrance from bottom
-- Loading state during permission request
-- Auto-hides after permission granted
-
-## Browser API Support
-
-### DeviceMotionEvent
-- **Supported**: All modern mobile browsers
-- **iOS 13+ Requirement**: User gesture + permission
-- **Fallback**: Graceful degradation if not supported
-
-### Acceleration Data
-- Primary: `accelerationIncludingGravity` (includes gravity)
-- Fallback: `acceleration` (gravity removed)
-- Both supported for maximum compatibility
+- Reads `accelerationIncludingGravity`, falling back to `acceleration`.
+- Samples at most once every 100ms.
+- Uses dual-axis and combined-acceleration thresholds.
+- Applies a one-second cooldown between shake detections.
+- Normalizes tilt to the `-1...1` range.
+- Removes the listener when snow mode is disabled or the component unmounts.
+- Respects the operating system's reduced-motion preference for rendered
+  animations.
 
 ## Testing
 
-### On Android
-1. Open site on mobile device
-2. Shake device vigorously
-3. Snowflakes should burst immediately
+### Android
 
-### On iOS 13+
-1. Open site on mobile device
-2. Tap "Enable Shake Effect" button
-3. Grant permission in system dialog
-4. Shake device vigorously
-5. Snowflakes should burst
+1. Open the HTTPS site during Christmas season in dark mode.
+2. Confirm snowfall appears without a permission prompt.
+3. Tilt the device and verify the snow drift changes.
+4. Shake the device and verify the snowball burst appears.
 
-### On iOS 12 and below
-1. Open site on mobile device
-2. Shake device vigorously
-3. Snowflakes should burst immediately (no permission needed)
+### iOS/iPadOS
 
-## Troubleshooting
-
-### Shake not detected
-- Ensure device has accelerometer
-- Try shaking more vigorously
-- Check browser console for errors
-- Verify permission granted (iOS 13+)
-
-### Permission button not showing (iOS)
-- Check iOS version (13+ required)
-- Verify in Safari browser
-- Clear browser cache and reload
-
-### Effect not working
-- Check DeviceMotionEvent support: `window.DeviceMotionEvent`
-- Verify HTTPS connection (required for some browsers)
-- Check browser console for permission errors
-
-## Performance
-
-- **Event throttling**: 100ms between checks
-- **Passive listeners**: No scroll blocking
-- **Cleanup**: Automatic removal of event listeners
-- **Memory**: Snowflakes cleared after animation
-- **Battery impact**: Minimal (only active when page open)
-
-## Security & Privacy
-
-- Only activates with user interaction (iOS)
-- No data collection or transmission
-- No background activity
-- Permission can be revoked in browser settings
-- Respects browser privacy settings
+1. Open the site during Christmas season in dark mode.
+2. Confirm snowfall appears.
+3. Confirm no motion-permission button or native permission prompt appears.
+4. Confirm shaking and tilting do not activate motion effects.

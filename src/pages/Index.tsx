@@ -7,7 +7,6 @@ import { useState, useRef, lazy, Suspense } from "react";
 import { EasterEggProvider } from "@/contexts/EasterEggContext";
 import { useEasterEgg } from "@/contexts/EasterEggState";
 import { SnowballShakeEffect } from "@/components/SnowballShakeEffect";
-import { ShakePermissionButton } from "@/components/ShakePermissionButton";
 import { useDeviceShake } from "@/hooks/useDeviceShake";
 
 // Seasonal effects are code-split and fetched only when their season activates
@@ -32,7 +31,7 @@ const IndexContent = () => {
   const [isHovering, setIsHovering] = useState(false);
   const logoRef = useRef<HTMLDivElement>(null);
   const { isSnowActive, isHalloweenActive } = useEasterEgg();
-  const { isShaking, requestPermission, permissionGranted, requiresPermission, tilt } = useDeviceShake(isSnowActive);
+  const { isShaking, tilt } = useDeviceShake(isSnowActive);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (logoRef.current) {
@@ -51,13 +50,6 @@ const IndexContent = () => {
         {isHalloweenActive && <LightningEffect />}
       </Suspense>
       {isSnowActive && <SnowballShakeEffect isShaking={isShaking} tilt={tilt} />}
-      {isSnowActive && (
-        <ShakePermissionButton
-          requestPermission={requestPermission}
-          permissionGranted={permissionGranted}
-          requiresPermission={requiresPermission}
-        />
-      )}
       <div className="page-shell">
         <Header />
 

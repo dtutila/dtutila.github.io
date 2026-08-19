@@ -51,19 +51,18 @@ these lives in `src/contexts/EasterEggContext.tsx`, which wraps the Index page.
 
 ## 5. Shake-to-snowball
 
-- **Trigger:** Shake a mobile device while snow mode is active. On iOS 13+ an
-  "Enable Shake Effect" button appears first to request motion permission.
+- **Trigger:** Shake a supported non-iOS mobile device while snow mode is
+  active. Motion features are intentionally disabled on iPhone and iPad.
 - **Effect:** 60 snowflakes burst from the center of the screen with a 6-stage
   physics animation (explosion → peak → gravity fall → air resistance →
   settle → fade) over 2.8s, then clean up after 3s.
 - **Files:** `src/hooks/useDeviceShake.ts`,
-  `src/components/SnowballShakeEffect.tsx`,
-  `src/components/ShakePermissionButton.tsx`
+  `src/components/SnowballShakeEffect.tsx`
 - **Details:** See `SNOWBALL_PHYSICS.md` and `SHAKE_EFFECT_COMPATIBILITY.md`.
 
 ## 6. Tilt-steered snow
 
-- **Trigger:** Tilt a mobile device while snow is falling.
+- **Trigger:** Tilt a supported non-iOS mobile device while snow is falling.
 - **Effect:** Falling flakes drift horizontally based on device
   tilt (normalized ±1 from accelerometer data).
 - **Files:** `src/components/SnowEffect.tsx`, `src/hooks/useDeviceShake.ts`

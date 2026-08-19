@@ -15,8 +15,8 @@ Live at [dtutila.com](https://dtutila.com).
   See `CHRISTMAS_SEASON_BEHAVIOR.md`.
 - **Halloween season mode** — a glowing jack-o'-lantern perched on the logo
   from October 1 to November 2 in dark mode, with a header toggle.
-- **Easter eggs** — falling brand text, shake-to-snowball on mobile,
-  tilt-steered snow, and more. See `EASTER_EGGS.md`.
+- **Easter eggs** — falling brand text, shake-to-snowball and tilt-steered
+  snow on supported non-iOS devices, and more. See `EASTER_EGGS.md`.
 
 ## 📚 Documentation
 
@@ -89,8 +89,7 @@ The app will be available at `http://localhost:8080`
 │   │   ├── SnowEffect.tsx
 │   │   ├── SnowAccumulation.tsx
 │   │   ├── SantaHatOverlay.tsx
-│   │   ├── SnowballShakeEffect.tsx
-│   │   └── ShakePermissionButton.tsx
+│   │   └── SnowballShakeEffect.tsx
 │   ├── contexts/        # React contexts (EasterEggContext)
 │   ├── hooks/           # Custom hooks (device motion)
 │   ├── lib/             # Seasonal date utilities

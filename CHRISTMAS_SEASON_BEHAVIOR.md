@@ -19,8 +19,8 @@ The Christmas effects are **ONLY active in DARK MODE during November and Decembe
 - ✅ Santa hat on circle image
 - ✅ Christmas lights (twinkling)
 - ✅ Snow accumulation on footer
-- ✅ Shake effect enabled
-- ✅ Tilt-responsive snow
+- ✅ Shake effect enabled on supported non-iOS devices
+- ✅ Tilt-responsive snow on supported non-iOS devices
 - ✅ Santa hat toggle button visible
 
 **Dynamic behavior:**
